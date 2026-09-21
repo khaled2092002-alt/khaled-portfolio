@@ -420,6 +420,29 @@ html[lang="en"] .ct{font-weight:800;letter-spacing:-.02em;font-size:1.35rem}
 .playb{opacity:0;transform:scale(.6);transition:opacity .25s,transform .35s var(--ease)}
 .card:hover .playb,.card:focus-visible .playb{opacity:1;transform:none}
 @media (hover:none){.playb{display:none}}
+
+/* Web dev section */
+.pill{display:inline-flex;align-items:center;gap:.5rem;background:#fff;border:1.5px solid var(--ink);border-radius:999px;box-shadow:0 3px 0 var(--ink);padding:.15rem 1rem;font-weight:600;font-size:.9rem;margin-bottom:1rem}
+.wd{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:2.6rem}
+.wcard{display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--ink);border-radius:30px;box-shadow:0 6px 0 var(--ink);overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.wcard:hover{transform:translateY(-5px) rotate(-.5deg);box-shadow:0 11px 0 var(--ink)}
+.wtop{display:block;text-decoration:none;color:inherit}
+.wchrome{display:flex;align-items:center;gap:7px;padding:.7rem .9rem;border-bottom:1.5px solid var(--ink);direction:ltr}
+.wchrome i{width:11px;height:11px;border-radius:50%;background:var(--c);border:1.5px solid var(--ink);flex:none}
+.wurl{flex:1;min-width:0;margin-inline-start:.4rem;background:var(--paper);border:1.5px solid var(--ink);border-radius:999px;padding:.1rem .8rem;font:500 .74rem/1.7 var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcover{display:block;position:relative;aspect-ratio:296/208;overflow:hidden;border-bottom:1.5px solid var(--ink)}
+.wcover svg.art{position:absolute;inset:0;width:100%;height:100%;transition:transform .6s var(--ease)}
+.wcard:hover .wcover svg.art{transform:scale(1.06)}
+.wbody{display:flex;flex-direction:column;gap:.7rem;padding:1.3rem 1.4rem 1.5rem;flex:1}
+.wbody h3{font:400 1.6rem/1.3 var(--display)}
+html[lang="en"] .wbody h3{font-weight:800;letter-spacing:-.03em;font-size:1.45rem}
+.wbody p{color:var(--ink2);font-size:.95rem;line-height:1.8}
+.wbody .tech{margin-top:.1rem}
+.wbody .btn{align-self:flex-start;margin-top:auto}
+.wd-more{margin-top:1.8rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.4rem;background:#fff;border:1.5px dashed var(--ink);border-radius:24px}
+.wd-more p{font-weight:500}
+@media (max-width:1000px){.wd{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.wd{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -428,11 +451,12 @@ html[lang="en"] .ct{font-weight:800;letter-spacing:-.02em;font-size:1.35rem}
 
 <nav class="nav" id="nav" aria-label="Main">
   <div class="nav-in">
-    <a class="logo" href="#top"><span class="av"><img src="assets/av.jpg" alt="" onerror="this.remove()"><i class="rec-dot" aria-hidden="true"></i></span><span data-i18n="logo">خالد</span></a>
+    <a class="logo" href="#top"><span class="rec-dot" aria-hidden="true"></span><span data-i18n="logo">خالد</span></a>
     <div class="nav-links" id="navLinks">
       <a href="#skills" data-i18n="nSkills">المهارات</a>
       <a href="#experience" data-i18n="nXp">الخبرات</a>
       <a href="#work" data-i18n="nWork">أعمالي</a>
+      <a href="#webdev" data-i18n="nWeb">الويب</a>
       <a href="#about" data-i18n="nAbout">عنّي</a>
     </div>
     <button class="icon-btn" id="langBtn" type="button">EN</button>
@@ -526,6 +550,17 @@ html[lang="en"] .ct{font-weight:800;letter-spacing:-.02em;font-size:1.35rem}
   </div>
 </section>
 
+<!-- WEB DEV -->
+<section class="sec" id="webdev">
+  <div class="wrap">
+    <span class="pill"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/></svg><span data-i18n="wdPill">تطوير الويب</span></span>
+    <h2 class="h2" data-i18n="wdT">مشاريعي في تطوير المواقع</h2>
+    <p class="sub" data-i18n="wdS"></p>
+    <div class="wd" id="wd"></div>
+    <div class="wd-more" id="wdMore"></div>
+  </div>
+</section>
+
 <!-- CREDENTIALS -->
 <section class="sec" id="credentials">
   <div class="wrap">
@@ -607,7 +642,7 @@ html[lang="en"] .ct{font-weight:800;letter-spacing:-.02em;font-size:1.35rem}
 
 <footer>
   <div class="wrap foot">
-    <a class="logo" href="#top"><span class="av"><img src="assets/av.jpg" alt="" onerror="this.remove()"><i class="rec-dot" aria-hidden="true"></i></span><span data-i18n="logo">خالد</span></a>
+    <a class="logo" href="#top"><span class="rec-dot" aria-hidden="true"></span><span data-i18n="logo">خالد</span></a>
     <span data-i18n="foot"></span>
     <div class="foot-links" id="footLinks"></div>
   </div>
@@ -696,32 +731,36 @@ const SKILLS = [
 
 const BE = "https://www.behance.net/gallery/";
 const PROJECTS = [
-  { cat: "design", art: "mill", ratio: "5/4",   url: BE + "248943631/_", t: { ar: "تصميم لمطاحن حبات البن", en: "Coffee Beans Mill Design" }, tag: { ar: "هوية بصرية", en: "Visual identity" } },
-  { cat: "design", art: "academy", ratio: "1/1",   url: BE + "242488055/_", t: { ar: "نيو اكاديمي", en: "New Academy" }, tag: { ar: "هوية تعليمية", en: "Educational identity" } },
-  { cat: "video", art: "shortfilm",  ratio: "4/3", url: "https://www.facebook.com/share/p/4KT8ejBD6C9z2cdq/",
+  { cat: "design", art: "mill",      ratio: "5/4", url: BE + "248943631/_", t: { ar: "تصميم لمطاحن حبات البن", en: "Coffee Beans Mill Design" }, tag: { ar: "هوية بصرية", en: "Visual identity" } },
+  { cat: "design", art: "academy",   ratio: "1/1", url: BE + "242488055/_", t: { ar: "نيو اكاديمي", en: "New Academy" }, tag: { ar: "هوية تعليمية", en: "Educational identity" } },
+  { cat: "video",  art: "shortfilm", ratio: "4/3", url: "https://www.facebook.com/share/p/4KT8ejBD6C9z2cdq/",
     t: { ar: "الفيلم القصير", en: "Short Film" }, tag: { ar: "إخراج", en: "Directing" },
     d: { ar: "فيلم قصير من إخراجي بالكامل", en: "A short film I directed in full" } },
-  { cat: "web", art: "action",    ratio: "5/4",   url: "https://kai3382172-byte.github.io/actionstudios/",
-    t: { ar: "Action Studio", en: "Action Studio" }, tag: { ar: "لاندنج بيدج", en: "Landing page" },
-    d: { ar: "لاندنج بيدج لاستديو إنتاج محتوى وبودكاست في القاهرة الجديدة، فيها عرض للخدمات، تسعير شفاف، ودعوة مباشرة للحجز عبر واتساب.", en: "A landing page for a content and podcast studio in New Cairo, showcasing services, transparent pricing, and a direct WhatsApp booking call-to-action." },
-    tech: ["Landing Page", "Responsive", "HTML / CSS / JS"] },
-  { cat: "design", art: "be", ratio: "1/1",   url: BE + "231762911/BE-Store", t: { ar: "B.E. Store", en: "B.E. Store" }, tag: { ar: "هوية متجر إلكتروني", en: "E-commerce identity" } },
-  { cat: "video", art: "film24",  ratio: "4/3",   url: "https://drive.google.com/file/d/1tVTL8yZMelcyoll1YvpzzbxOqqyhuUYt/view",
+  { cat: "design", art: "be",        ratio: "1/1", url: BE + "231762911/BE-Store", t: { ar: "B.E. Store", en: "B.E. Store" }, tag: { ar: "هوية متجر إلكتروني", en: "E-commerce identity" } },
+  { cat: "video",  art: "film24",    ratio: "4/3", url: "https://drive.google.com/file/d/1tVTL8yZMelcyoll1YvpzzbxOqqyhuUYt/view",
     t: { ar: "فيلم ٢٤ ساعة", en: "24 Hour Film" }, tag: { ar: "وثائقي", en: "Documentary" },
     d: { ar: "فيلم وثائقي قصير", en: "Short documentary film" } },
-  { cat: "web", art: "ican",    ratio: "5/4",   url: "https://kai3382172-byte.github.io/Ican/",
-    t: { ar: "ICAN", en: "ICAN" }, tag: { ar: "لاندنج بيدج", en: "Landing page" },
-    d: { ar: "موقع تعريفي لقاعة محاضرات وتدريب في التجمع الخامس، بيعرض مقارنة أسعار السوق، الباقات، وخطوات الحجز بشكل واضح ومنظم.", en: "A landing page for a lecture and training hall in Fifth Settlement, presenting a clear market price comparison, packages, and booking steps." },
-    tech: ["Landing Page", "Responsive", "HTML / CSS / JS"] },
-  { cat: "design", art: "beans", ratio: "1/1",   url: BE + "231761163/_", t: { ar: "حبات البن", en: "Habbat Elbon" }, tag: { ar: "هوية براند", en: "Brand identity" } },
-  { cat: "video", art: "promo",  ratio: "5/4",   url: "https://www.facebook.com/share/r/1KAD1YyFJK/",
+  { cat: "design", art: "beans",     ratio: "5/4", url: BE + "231761163/_", t: { ar: "حبات البن", en: "Habbat Elbon" }, tag: { ar: "هوية براند", en: "Brand identity" } },
+  { cat: "video",  art: "promo",     ratio: "5/4", url: "https://www.facebook.com/share/r/1KAD1YyFJK/",
     t: { ar: "حبات البن", en: "Habbat Elbon" }, tag: { ar: "فيديو ترويجي", en: "Promo video" },
     d: { ar: "فيديو ترويجي لمشروع حبات البن", en: "Promotional video for the Habbat Elbon project" } },
-  { cat: "web", art: "baseera",    ratio: "4/3", url: "https://bacera-inky.vercel.app/",
-    t: { ar: "بصيرة | Baseera", en: "Baseera" }, tag: { ar: "متجر إلكتروني", en: "E-commerce" },
+  { cat: "design", art: "tamakon",   ratio: "1/1", url: BE + "231760097/_", t: { ar: "مشروع تمكن", en: "Tamakon Project" }, tag: { ar: "هوية مشروع تطويري", en: "Development project identity" } }
+];
+
+/* مشاريع تطوير الويب */
+const WEB = [
+  { key: "action", url: "https://kai3382172-byte.github.io/actionstudios/", host: "kai3382172-byte.github.io/actionstudios",
+    t: { ar: "Action Studio", en: "Action Studio" },
+    d: { ar: "لاندنج بيدج لاستديو إنتاج محتوى وبودكاست في القاهرة الجديدة، فيها عرض للخدمات، تسعير شفاف، ودعوة مباشرة للحجز عبر واتساب.", en: "A landing page for a content and podcast studio in New Cairo, showcasing services, transparent pricing, and a direct WhatsApp booking call-to-action." },
+    tech: ["Landing Page", "Responsive", "HTML / CSS / JS"] },
+  { key: "ican", url: "https://kai3382172-byte.github.io/Ican/", host: "kai3382172-byte.github.io/Ican",
+    t: { ar: "ICAN", en: "ICAN" },
+    d: { ar: "موقع تعريفي لقاعة محاضرات وتدريب في التجمع الخامس، بيعرض مقارنة أسعار السوق، الباقات، وخطوات الحجز بشكل واضح ومنظم.", en: "A landing page for a lecture and training hall in Fifth Settlement, presenting a clear market price comparison, packages, and booking steps." },
+    tech: ["Landing Page", "Responsive", "HTML / CSS / JS"] },
+  { key: "baseera", url: "https://bacera-inky.vercel.app/", host: "bacera-inky.vercel.app",
+    t: { ar: "بصيرة | Baseera", en: "Baseera" },
     d: { ar: "متجر نظارات مصري كامل: طبية وشمس وقراءة وعدسات لاصقة، مبني بـ Next.js مع تجربة معاينة النظارة على وشك بالكاميرا (AR Try-On)، دفع عند الاستلام، وتوصيل لكل محافظات مصر.", en: "A full Egyptian eyewear e-commerce store: prescription, sunglasses, reading glasses and contact lenses, built with Next.js featuring a live AR camera try-on, cash on delivery and nationwide shipping." },
-    tech: ["Next.js", "E-Commerce", "AR Try-On", "PostgreSQL"] },
-  { cat: "design", art: "tamakon", ratio: "1/1",   url: BE + "231760097/_", t: { ar: "مشروع تمكن", en: "Tamakon Project" }, tag: { ar: "هوية مشروع تطويري", en: "Development project identity" } }
+    tech: ["Next.js", "E-Commerce", "AR Try-On", "PostgreSQL"] }
 ];
 
 const XP = [
@@ -776,7 +815,7 @@ const L = {
     dir: "rtl",
     ui: {
       title: "Khaled Ahmed | مسوّق رقمي وصانع محتوى", langBtn: "EN",
-      logo: "خالد", nSkills: "المهارات", nXp: "الخبرات", nWork: "أعمالي", nAbout: "عنّي", nContact: "تواصل",
+      logo: "خالد", nSkills: "المهارات", nXp: "الخبرات", nWork: "أعمالي", nWeb: "الويب", nAbout: "عنّي", nContact: "تواصل",
       avail: "متاح للعمل بدوام كامل وفريلانس", iam: "أنا", n1: "خالد", n2: "أحمد",
       lede: "بخبرة عملية في إدارة حملات التواصل الاجتماعي وكتابة وإخراج وتصوير المحتوى. بحوّل الأفكار لمحتوى يوصل للناس ويأثر فيهم، وبربط بين الإبداع والنتيجة المطلوبة في كل حملة.",
       cta1: "شوف أعمالي", cta2: "تواصل معي",
@@ -784,8 +823,11 @@ const L = {
       mmT: "لقطات", mmS: "من ورا الكاميرا ومن قدّامها. اضغط على أي لقطة تكبّرها.",
       skT: "المهارات والخبرات", skS: "الأدوات والمهارات اللي بحوّل بيها الفكرة لنتيجة. مرّر على التايم لاين أو اضغط على أي مقطع.",
       xpT: "الخبرات المهنية", xpS: "محطات عملت فيها وأثبتت خبرتي في التسويق الرقمي وإنتاج المحتوى.",
-      wkT: "أعمالي", wkS: "تصميم على Behance، وفيديو، ومواقع. اضغط على أي شغل تشوف التفاصيل.",
-      bh: "كل الأعمال على Behance", drv: "تصاميم وملفات مشاريع الويب على Drive",
+      wkT: "أعمالي", wkS: "تصميم على Behance وأعمال فيديو. اضغط على أي شغل تشوف التفاصيل.",
+      bh: "كل الأعمال على Behance",
+      wdPill: "تطوير الويب", wdT: "مشاريعي في تطوير المواقع",
+      wdS: "بجانب التسويق وصناعة المحتوى، بصمم وأبني مواقع تعريفية (Landing Pages) لعلامات تجارية ومساحات عمل، من الفكرة للتصميم للتنفيذ.",
+      visit: "زيارة الموقع المباشر", wdMore: "عايز تشوف تصاميم وملفات إضافية لمشاريع تطوير الويب؟", wdDrive: "فتح المجلد على Drive",
       crT: "الشهادات والمؤهلات", crS: "شهادات ومصادر توثّق مسيرتي المهنية.",
       crAll: "ملف الأعمال الكامل على Drive", crOpen: "شوف الشهادة",
       abT: "نبذة عنّي",
@@ -816,7 +858,7 @@ const L = {
     dir: "ltr",
     ui: {
       title: "Khaled Ahmed | Digital Marketer & Content Creator", langBtn: "عربي",
-      logo: "Khaled", nSkills: "Skills", nXp: "Experience", nWork: "Work", nAbout: "About", nContact: "Contact",
+      logo: "Khaled", nSkills: "Skills", nXp: "Experience", nWork: "Work", nWeb: "Web", nAbout: "About", nContact: "Contact",
       avail: "Open to full-time and freelance", iam: "I'm a", n1: "Khaled", n2: "Ahmed",
       lede: "Results-driven Digital Marketing Manager and Content Creator with 2+ years of hands-on experience planning and executing data-informed campaigns across Meta, Google, TikTok and Snapchat. I turn ideas into content that reaches people and moves them.",
       cta1: "View my work", cta2: "Get in touch",
@@ -824,8 +866,11 @@ const L = {
       mmT: "Snapshots", mmS: "From behind the camera and in front of it. Tap any frame to enlarge.",
       skT: "Skills & Expertise", skS: "The tools and skills I use to turn an idea into a result. Scrub the timeline or tap a clip.",
       xpT: "Professional Experience", xpS: "Places I've worked that shaped my expertise in digital marketing and content production.",
-      wkT: "My Work", wkS: "Design on Behance, video, and websites. Tap any piece for details.",
-      bh: "See all work on Behance", drv: "Web project designs and files on Drive",
+      wkT: "My Work", wkS: "Design on Behance and video work. Tap any piece for details.",
+      bh: "See all work on Behance",
+      wdPill: "Web Development", wdT: "My Web Development Projects",
+      wdS: "Alongside marketing and content creation, I design and build landing pages for brands and workspaces, from idea to design to build.",
+      visit: "Visit live site", wdMore: "Want to see more designs and files from my web projects?", wdDrive: "Open the Drive folder",
       crT: "Certificates & Qualifications", crS: "Certificates and sources documenting my professional journey.",
       crAll: "Full portfolio archive on Drive", crOpen: "View certificate",
       abT: "About me",
@@ -875,6 +920,7 @@ const ICONS = {
   instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor"/>',
   brief:     '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/>',
   ext:       '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  globe:     '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/>',
   play:      '<path d="M8 5v14l11-7z" fill="currentColor"/>',
   photo:     '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.6"/>',
   direction: '<path d="M3 10h18v10H3zM3 10l2.2-5.5 4 1.2L7 11M9.2 5.7l4 1.2L11 11M13.2 6.9l4 1.2L15 11"/>',
@@ -997,43 +1043,41 @@ const ART = {
      <rect x="96" y="94" width="54" height="20" rx="10" fill="#fff" ${sw(2.5)}/><circle cx="108" cy="104" r="4.5" fill="#FF4D5E"/><text x="130" y="108" text-anchor="middle" ${FONT} font-size="10" font-weight="700" fill="${INK}">REC</text>
      <path d="M96 232H304" stroke="${INK}" stroke-width="6" stroke-linecap="round" opacity=".2"/><path d="M96 232H188" stroke="${C.coral}" stroke-width="6" stroke-linecap="round"/><circle cx="188" cy="232" r="8.5" fill="#fff" ${sw(3)}/>
      <circle cx="326" cy="64" r="27" fill="${C.mint}" ${sw()}/><path d="M326 78S312 69 312 60A7 7 0 0 1 326 58A7 7 0 0 1 340 60C340 69 326 78 326 78Z" fill="${C.coral}" ${sw(3)}/>` +
-    spark(66, 86, 13, "#fff") + spark(344, 226, 10, C.lemon) },
-
-  action: { bg: C.coral, svg: () => bgl("action", C.coral, C.lemon, "stripes") +
-    win("action", "github.io/actionstudios", INK,
-      `<circle cx="200" cy="140" r="78" fill="none" stroke="${C.coral}" stroke-width="4" stroke-dasharray="4 14" stroke-linecap="round"/>
-       <circle cx="200" cy="140" r="104" fill="none" stroke="${C.lemon}" stroke-width="3.5" stroke-dasharray="3 18" stroke-linecap="round"/>
-       <rect x="176" y="98" width="48" height="84" rx="24" fill="${C.coral}" stroke="${C.lemon}" stroke-width="4"/>
-       <path d="M188 118h24M188 132h24M188 146h24" stroke="${C.lemon}" stroke-width="3.5" stroke-linecap="round"/>
-       <path d="M160 156C160 206 240 206 240 156" fill="none" stroke="${C.lemon}" stroke-width="5" stroke-linecap="round"/>
-       <path d="M200 198V232M176 234H224" stroke="${C.lemon}" stroke-width="5" stroke-linecap="round"/>
-       <path d="M52 284V238L112 252L98 284Z" fill="${C.coral}"/><path d="M84 284L118 258L146 284Z" fill="${C.lemon}"/>
-       <path d="M348 284V232L290 246L304 284Z" fill="${C.coral}"/><path d="M262 284L300 252L330 284Z" fill="${C.lemon}"/>
-       <circle cx="84" cy="112" r="6" fill="${C.lemon}"/><circle cx="318" cy="110" r="5" fill="${C.coral}"/>`) +
-    spark(38, 70, 12, "#fff") + spark(364, 250, 10, "#fff") },
-
-  ican: { bg: C.sky, svg: () => bgl("ican", C.sky, C.mint, "grid") +
-    win("ican", "github.io/Ican", "#DCEFFF",
-      `<rect x="80" y="92" width="152" height="106" rx="8" fill="#fff" ${sw()}/>
-       <rect x="98" y="162" width="20" height="26" fill="${C.coral}" ${sw(3)}/><rect x="126" y="148" width="20" height="40" fill="${C.lemon}" ${sw(3)}/><rect x="154" y="132" width="20" height="56" fill="${C.mint}" ${sw(3)}/><rect x="182" y="114" width="20" height="74" fill="${C.lilac}" ${sw(3)}/>
-       <path d="M110 150L140 138L168 120L204 102" fill="none" ${sw(3)} stroke-dasharray="1 8"/>
-       <path d="M120 198L110 240M192 198L202 240" ${sw(4)}/>
-       <polygon points="288,96 330,112 288,128 246,112" fill="${INK}"/><path d="M264 122V140Q288 152 312 140V122Q288 134 264 122Z" fill="#3B3670" ${sw(3)}/><circle cx="330" cy="140" r="6" fill="${C.lemon}" ${sw(2.5)}/><path d="M330 114V134" stroke="${C.lemon}" stroke-width="3.5" stroke-linecap="round"/>
-       <circle cx="262" cy="212" r="11" fill="${C.peach}" ${sw(3)}/><rect x="238" y="222" width="56" height="28" rx="7" fill="${C.mint}" ${sw(3.5)}/>
-       <circle cx="322" cy="226" r="11" fill="${C.pink}" ${sw(3)}/><rect x="298" y="236" width="52" height="28" rx="7" fill="${C.lemon}" ${sw(3.5)}/>`) +
-    spark(36, 92, 12, "#fff") + spark(366, 232, 10, "#fff") },
-
-  baseera: { bg: C.lilac, svg: () => bgl("baseera", C.lilac, C.lemon, "dots") +
-    win("baseera", "bacera-inky.vercel.app", "#EAE3FF",
-      `<rect x="142" y="92" width="116" height="24" rx="12" fill="${C.lemon}" ${sw(3)}/><text x="200" y="108.5" text-anchor="middle" ${FONT} font-size="11.5" font-weight="700" fill="${INK}">AR TRY-ON</text>
-       <path d="M92 152V132H114M308 152V132H286M92 222V242H114M308 222V242H286" fill="none" ${sw(4.5)}/>
-       <path d="M110 176L96 166M290 176L304 166" ${sw(6)}/>
-       <rect x="110" y="158" width="82" height="64" rx="28" fill="${C.lilac}" fill-opacity=".85" ${sw(6)}/><rect x="208" y="158" width="82" height="64" rx="28" fill="${C.lilac}" fill-opacity=".85" ${sw(6)}/>
-       <path d="M192 180Q200 172 208 180" fill="none" ${sw(6)}/>
-       <path d="M126 176L146 170M224 176L244 170" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-       <g transform="translate(304 258) rotate(-14)"><rect x="-32" y="-13" width="64" height="26" rx="8" fill="${C.coral}" ${sw(3.5)}/><circle cx="-20" cy="0" r="3.5" fill="#fff"/><text x="6" y="4.5" text-anchor="middle" ${FONT} font-size="10.5" font-weight="700" fill="${INK}">COD</text></g>`) +
-    spark(38, 84, 12, C.lemon) + spark(364, 246, 10, "#fff") }
+    spark(66, 86, 13, "#fff") + spark(344, 226, 10, C.lemon) }
 };
+
+/* أغلفة مشاريع الويب (بتتحط جوه كارت فيه شريط متصفح) */
+const WEB_ART = {
+  action: { fill: INK, dot: "#fff", svg: `
+    <circle cx="200" cy="140" r="78" fill="none" stroke="${C.coral}" stroke-width="4" stroke-dasharray="4 14" stroke-linecap="round"/>
+    <circle cx="200" cy="140" r="104" fill="none" stroke="${C.lemon}" stroke-width="3.5" stroke-dasharray="3 18" stroke-linecap="round"/>
+    <rect x="176" y="98" width="48" height="84" rx="24" fill="${C.coral}" stroke="${C.lemon}" stroke-width="4"/>
+    <path d="M188 118h24M188 132h24M188 146h24" stroke="${C.lemon}" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M160 156C160 206 240 206 240 156" fill="none" stroke="${C.lemon}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M200 198V232M176 234H224" stroke="${C.lemon}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M52 284V238L112 252L98 284Z" fill="${C.coral}"/><path d="M84 284L118 258L146 284Z" fill="${C.lemon}"/>
+    <path d="M348 284V232L290 246L304 284Z" fill="${C.coral}"/><path d="M262 284L300 252L330 284Z" fill="${C.lemon}"/>
+    <circle cx="84" cy="112" r="6" fill="${C.lemon}"/><circle cx="318" cy="110" r="5" fill="${C.coral}"/>` },
+  ican: { fill: "#CFE8FF", dot: INK, svg: `
+    <rect x="80" y="92" width="152" height="106" rx="8" fill="#fff" ${sw()}/>
+    <rect x="98" y="162" width="20" height="26" fill="${C.coral}" ${sw(3)}/><rect x="126" y="148" width="20" height="40" fill="${C.lemon}" ${sw(3)}/><rect x="154" y="132" width="20" height="56" fill="${C.mint}" ${sw(3)}/><rect x="182" y="114" width="20" height="74" fill="${C.lilac}" ${sw(3)}/>
+    <path d="M110 150L140 138L168 120L204 102" fill="none" ${sw(3)} stroke-dasharray="1 8"/>
+    <path d="M120 198L110 240M192 198L202 240" ${sw(4)}/>
+    <polygon points="288,96 330,112 288,128 246,112" fill="${INK}"/><path d="M264 122V140Q288 152 312 140V122Q288 134 264 122Z" fill="#3B3670" ${sw(3)}/><circle cx="330" cy="140" r="6" fill="${C.lemon}" ${sw(2.5)}/><path d="M330 114V134" stroke="${C.lemon}" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="262" cy="212" r="11" fill="${C.peach}" ${sw(3)}/><rect x="238" y="222" width="56" height="28" rx="7" fill="${C.mint}" ${sw(3.5)}/>
+    <circle cx="322" cy="226" r="11" fill="${C.pink}" ${sw(3)}/><rect x="298" y="236" width="52" height="28" rx="7" fill="${C.lemon}" ${sw(3.5)}/>` },
+  baseera: { fill: "#E4DBFF", dot: INK, svg: `
+    <rect x="142" y="92" width="116" height="24" rx="12" fill="${C.lemon}" ${sw(3)}/><text x="200" y="108.5" text-anchor="middle" ${FONT} font-size="11.5" font-weight="700" fill="${INK}">AR TRY-ON</text>
+    <path d="M92 152V132H114M308 152V132H286M92 222V242H114M308 222V242H286" fill="none" ${sw(4.5)}/>
+    <path d="M110 176L96 166M290 176L304 166" ${sw(6)}/>
+    <rect x="110" y="158" width="82" height="64" rx="28" fill="${C.lilac}" fill-opacity=".85" ${sw(6)}/><rect x="208" y="158" width="82" height="64" rx="28" fill="${C.lilac}" fill-opacity=".85" ${sw(6)}/>
+    <path d="M192 180Q200 172 208 180" fill="none" ${sw(6)}/>
+    <path d="M126 176L146 170M224 176L244 170" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    <g transform="translate(304 258) rotate(-14)"><rect x="-32" y="-13" width="64" height="26" rx="8" fill="${C.coral}" ${sw(3.5)}/><circle cx="-20" cy="0" r="3.5" fill="#fff"/><text x="6" y="4.5" text-anchor="middle" ${FONT} font-size="10.5" font-weight="700" fill="${INK}">COD</text></g>` }
+};
+const webArt = k => { const a = WEB_ART[k]; return `<svg class="art" viewBox="52 74 296 208" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs><pattern id="wp-${k}" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="2" fill="${a.dot}" opacity=".13"/></pattern></defs>
+  <rect x="40" y="60" width="330" height="240" fill="${a.fill}"/><rect x="40" y="60" width="330" height="240" fill="url(#wp-${k})"/>${a.svg}${spark(76, 100, 11, a.dot === "#fff" ? C.lemon : "#fff")}</svg>`; };
 const artSVG = (k, meet) => `<svg class="art" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid ${meet ? "meet" : "slice"}" aria-hidden="true">${ART[k].svg()}</svg>`;
 
 const CAT = { design: { c: "--pink", icon: "design" }, video: { c: "--sky", icon: "play" }, web: { c: "--mint", icon: "code" } };
@@ -1110,7 +1154,7 @@ function renderXP() {
 
 function renderFilters() {
   const d = D();
-  $("#filters").innerHTML = ["all", "design", "video", "web"]
+  $("#filters").innerHTML = ["all", "design", "video"]
     .map(k => `<button type="button" class="fchip" data-f="${k}" aria-pressed="${k === filter}">${d.cats[k]}</button>`).join("");
 }
 
@@ -1125,11 +1169,28 @@ function renderWork(animate) {
       <span class="ct">${T(p.t)}</span><span class="cs"><b>${T(p.tag)}</b>${p.d ? T(p.d) : ""}</span></button>`).join("");
 }
 
+function renderWeb() {
+  const d = D().ui;
+  $("#wd").innerHTML = WEB.map((w, i) => `
+    <article class="wcard">
+      <a class="wtop" href="${w.url}" target="_blank" rel="noopener" aria-label="${T(w.t)}">
+        <span class="wchrome"><i style="--c:var(--coral)"></i><i style="--c:var(--lemon)"></i><i style="--c:var(--mint)"></i><span class="wurl" dir="ltr">${w.host}</span></span>
+        <span class="wcover">${webArt(w.key)}</span>
+      </a>
+      <div class="wbody">
+        <h3>${T(w.t)}</h3>
+        <p>${T(w.d)}</p>
+        <ul class="tech">${w.tech.map(x => `<li>${x}</li>`).join("")}</ul>
+        <a class="btn pri sm" href="${w.url}" target="_blank" rel="noopener">${d.visit}${ico("ext", 15)}</a>
+      </div>
+    </article>`).join("");
+  $("#wdMore").innerHTML = `<p>${d.wdMore}</p><a class="btn sm" href="${CONFIG.driveWeb}" target="_blank" rel="noopener">${d.wdDrive}${ico("ext", 15)}</a>`;
+}
+
 function renderMore() {
   const d = D().ui;
   $("#more").innerHTML =
-    `<a class="btn pri sm" href="${CONFIG.behance}" target="_blank" rel="noopener">${d.bh}${ico("ext", 15)}</a>` +
-    `<a class="btn sm" href="${CONFIG.driveWeb}" target="_blank" rel="noopener">${d.drv}${ico("ext", 15)}</a>`;
+    `<a class="btn pri sm" href="${CONFIG.behance}" target="_blank" rel="noopener">${d.bh}${ico("ext", 15)}</a>`;
   $("#crMore").innerHTML = `<a class="btn pri sm" href="${CONFIG.drive}" target="_blank" rel="noopener">${d.crAll}${ico("ext", 15)}</a>`;
 }
 
@@ -1221,7 +1282,7 @@ function applyLang() {
   $$("[data-ph]").forEach(el => { el.placeholder = d.ui[el.dataset.ph]; });
   $("#roleWord").textContent = d.roles[roleI % d.roles.length];
   renderTape(); renderTimeline(); showService(active, { animate: false });
-  renderXP(); renderFilters(); renderWork(false); renderMore(); renderStrip();
+  renderXP(); renderFilters(); renderWork(false); renderWeb(); renderMore(); renderStrip();
   renderPolas(); renderReel(); renderStats(); renderChips(); renderInfo();
 }
 
