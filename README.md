@@ -1,13 +1,11 @@
-# خالد أحمد | Khaled Ahmed — Portfolio
+# Khaled Ahmed | خالد أحمد — Portfolio
 
-بورتفوليو صانع محتوى / سوشيال ميديا / ديجيتال ماركتنج / إخراج / تصوير / تصميم / مونتاج.
-Single-file static site (HTML + CSS + JS)، عربي RTL مع نسخة إنجليزية.
+مسوّق رقمي وصانع محتوى — إدارة حملات السوشيال ميديا، إنتاج وإخراج الفيديو، التصميم الجرافيكي، وتطوير مواقع تعريفية.
+Digital Marketer & Content Creator based in Cairo, Egypt.
 
-- Instagram: https://www.instagram.com/khaled.elmsree
+**Live:** https://khaled2092002-alt.github.io/khaled-portfolio/
 
-## التعديل
-- بياناتك (واتساب/إيميل) وأعمالك: أول الـ `<script>` في `index.html` (`CONFIG` و`PROJECTS`).
-- الصور: `assets/khaled.jpg` و`assets/p1.jpg` (وتقدر تضيف `p2.jpg` و`p3.jpg`).
-
-## النشر
-ارفع الريبو على Vercel أو GitHub Pages، مفيش build step.
+- ملف واحد ثابت (HTML + CSS + JS) بدون build، عربي RTL مع نسخة إنجليزية.
+- المحتوى (خبرات، مهارات، أعمال، شهادات، روابط) في أول الـ `<script>` داخل `index.html`: `CONFIG` و`SKILLS` و`PROJECTS` و`XP` و`CREDS`.
+- الصور في `assets/`.
+- نموذج التواصل بيبعت عن طريق FormSubmit على الإيميل.
