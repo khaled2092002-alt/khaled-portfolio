@@ -378,6 +378,48 @@ html[lang="en"] .cover-t{font-weight:800;letter-spacing:-.03em}
 .playb{top:.7rem;bottom:auto}
 .cs{margin:.7rem .5rem 0}
 .cs b{display:block;font-weight:600;color:var(--ink);font-size:.95rem}
+
+/* v3: illustrated covers, photos */
+.cover{min-height:0;background:var(--c)}
+.cover svg.art{position:absolute;inset:0;width:100%;height:100%;transition:transform .6s var(--ease)}
+.card:hover .cover svg.art{transform:scale(1.06) rotate(-.8deg)}
+.cover .badge{top:auto;bottom:.7rem}
+.playb{top:auto;bottom:.7rem}
+.cover-ic,.cover-t{display:none}
+.ct{display:block;margin:.9rem .5rem 0;font:400 1.5rem/1.3 var(--display)}
+html[lang="en"] .ct{font-weight:800;letter-spacing:-.02em;font-size:1.35rem}
+.cs{margin:.15rem .5rem 0}
+.dlg-cover svg.art{position:absolute;inset:0;width:100%;height:100%}
+.dlg-cover{height:260px}
+
+.av{position:relative;display:inline-block;width:36px;height:36px;flex:none}
+.av img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 20%;border:1.5px solid var(--ink);background:var(--sky)}
+.av .rec-dot{position:absolute;top:-2px;inset-inline-end:-3px;width:11px;height:11px;border:1.5px solid #fff}
+.av:not(:has(img)) .rec-dot{position:static}
+.logo{gap:.55rem}
+
+.pl[data-pos="3"],.pl[data-pos="4"]{transform:translate(-28px,-24px) rotate(-9deg);z-index:0;opacity:0;pointer-events:none}
+.pl{transition:transform .6s var(--ease),opacity .4s}
+
+.reel-wrap{position:relative;margin-top:2.4rem;background:var(--ink);border-radius:28px;padding:34px 16px}
+.reel-wrap::before,.reel-wrap::after{content:"";position:absolute;inset-inline:22px;height:10px;background:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 30px);border-radius:3px}
+.reel-wrap::before{top:11px}.reel-wrap::after{bottom:11px}
+.reel{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.shot{position:relative;display:block;padding:0;border:0;border-radius:12px;overflow:hidden;aspect-ratio:3/4;background:#3B3670;transition:transform .35s var(--ease)}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.shot:hover{transform:translateY(-6px) rotate(-1.2deg)}
+.shot:hover img{transform:scale(1.06)}
+.shot .no{position:absolute;top:8px;inset-inline-start:8px;background:var(--lemon);border:1.5px solid var(--ink);border-radius:999px;padding:0 .6rem;font:600 .75rem/1.6 var(--body);font-variant-numeric:tabular-nums}
+@media (max-width:900px){
+  .reel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+  .shot{flex:0 0 46%;scroll-snap-align:center}
+}
+.pdlg{width:auto;max-width:min(92vw,560px);background:var(--ink);border-radius:28px;padding:14px;text-align:center}
+.pdlg img{max-height:78vh;width:auto;max-width:100%;border-radius:16px;margin-inline:auto}
+.pdlg .btn{margin-top:12px}
+.playb{opacity:0;transform:scale(.6);transition:opacity .25s,transform .35s var(--ease)}
+.card:hover .playb,.card:focus-visible .playb{opacity:1;transform:none}
+@media (hover:none){.playb{display:none}}
 </style>
 </head>
 
@@ -386,7 +428,7 @@ html[lang="en"] .cover-t{font-weight:800;letter-spacing:-.03em}
 
 <nav class="nav" id="nav" aria-label="Main">
   <div class="nav-in">
-    <a class="logo" href="#top"><span class="rec-dot" aria-hidden="true"></span><span data-i18n="logo">خالد</span></a>
+    <a class="logo" href="#top"><span class="av"><img src="assets/av.jpg" alt="" onerror="this.remove()"><i class="rec-dot" aria-hidden="true"></i></span><span data-i18n="logo">خالد</span></a>
     <div class="nav-links" id="navLinks">
       <a href="#skills" data-i18n="nSkills">المهارات</a>
       <a href="#experience" data-i18n="nXp">الخبرات</a>
@@ -426,7 +468,7 @@ html[lang="en"] .cover-t{font-weight:800;letter-spacing:-.03em}
             <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
             <span class="badge-h t"><span class="rec-dot" style="width:9px;height:9px"></span>REC <b id="tc">00:00:00</b></span>
             <span class="batt"></span>
-            <span class="badge-h b">4K &nbsp;30 FPS</span>
+            <span class="badge-h b">4K &nbsp;<span id="shots">IMG 1/5</span></span>
             <div class="reticle" id="reticle"></div>
           </div>
           <div class="flash" id="flash"></div>
@@ -509,6 +551,15 @@ html[lang="en"] .cover-t{font-weight:800;letter-spacing:-.03em}
   </div>
 </section>
 
+<!-- MOMENTS -->
+<section class="sec" id="moments">
+  <div class="wrap">
+    <h2 class="h2" data-i18n="mmT">لقطات</h2>
+    <p class="sub" data-i18n="mmS"></p>
+    <div class="reel-wrap"><div class="reel" id="reel"></div></div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section class="sec" id="contact">
   <div class="wrap contact">
@@ -556,7 +607,7 @@ html[lang="en"] .cover-t{font-weight:800;letter-spacing:-.03em}
 
 <footer>
   <div class="wrap foot">
-    <a class="logo" href="#top"><span class="rec-dot" aria-hidden="true"></span><span data-i18n="logo">خالد</span></a>
+    <a class="logo" href="#top"><span class="av"><img src="assets/av.jpg" alt="" onerror="this.remove()"><i class="rec-dot" aria-hidden="true"></i></span><span data-i18n="logo">خالد</span></a>
     <span data-i18n="foot"></span>
     <div class="foot-links" id="footLinks"></div>
   </div>
@@ -574,6 +625,11 @@ html[lang="en"] .cover-t{font-weight:800;letter-spacing:-.03em}
       <button class="btn sm" id="dlgClose" type="button" data-i18n="close">إغلاق</button>
     </div>
   </div>
+</dialog>
+
+<dialog id="pdlg" class="pdlg" aria-label="Photo">
+  <img id="pdImg" alt="">
+  <button class="btn sm" id="pdClose" type="button" data-i18n="close">إغلاق</button>
 </dialog>
 
 <div class="toast" id="toast" role="status"></div>
@@ -640,32 +696,32 @@ const SKILLS = [
 
 const BE = "https://www.behance.net/gallery/";
 const PROJECTS = [
-  { cat: "design", ratio: "5/4",   url: BE + "248943631/_", t: { ar: "تصميم لمطاحن حبات البن", en: "Coffee Beans Mill Design" }, tag: { ar: "هوية بصرية", en: "Visual identity" } },
-  { cat: "design", ratio: "1/1",   url: BE + "242488055/_", t: { ar: "نيو اكاديمي", en: "New Academy" }, tag: { ar: "هوية تعليمية", en: "Educational identity" } },
-  { cat: "video",  ratio: "4/3", url: "https://www.facebook.com/share/p/4KT8ejBD6C9z2cdq/",
+  { cat: "design", art: "mill", ratio: "5/4",   url: BE + "248943631/_", t: { ar: "تصميم لمطاحن حبات البن", en: "Coffee Beans Mill Design" }, tag: { ar: "هوية بصرية", en: "Visual identity" } },
+  { cat: "design", art: "academy", ratio: "1/1",   url: BE + "242488055/_", t: { ar: "نيو اكاديمي", en: "New Academy" }, tag: { ar: "هوية تعليمية", en: "Educational identity" } },
+  { cat: "video", art: "shortfilm",  ratio: "4/3", url: "https://www.facebook.com/share/p/4KT8ejBD6C9z2cdq/",
     t: { ar: "الفيلم القصير", en: "Short Film" }, tag: { ar: "إخراج", en: "Directing" },
     d: { ar: "فيلم قصير من إخراجي بالكامل", en: "A short film I directed in full" } },
-  { cat: "web",    ratio: "5/4",   url: "https://kai3382172-byte.github.io/actionstudios/",
+  { cat: "web", art: "action",    ratio: "5/4",   url: "https://kai3382172-byte.github.io/actionstudios/",
     t: { ar: "Action Studio", en: "Action Studio" }, tag: { ar: "لاندنج بيدج", en: "Landing page" },
     d: { ar: "لاندنج بيدج لاستديو إنتاج محتوى وبودكاست في القاهرة الجديدة، فيها عرض للخدمات، تسعير شفاف، ودعوة مباشرة للحجز عبر واتساب.", en: "A landing page for a content and podcast studio in New Cairo, showcasing services, transparent pricing, and a direct WhatsApp booking call-to-action." },
     tech: ["Landing Page", "Responsive", "HTML / CSS / JS"] },
-  { cat: "design", ratio: "1/1",   url: BE + "231762911/BE-Store", t: { ar: "B.E. Store", en: "B.E. Store" }, tag: { ar: "هوية متجر إلكتروني", en: "E-commerce identity" } },
-  { cat: "video",  ratio: "4/3",   url: "https://drive.google.com/file/d/1tVTL8yZMelcyoll1YvpzzbxOqqyhuUYt/view",
+  { cat: "design", art: "be", ratio: "1/1",   url: BE + "231762911/BE-Store", t: { ar: "B.E. Store", en: "B.E. Store" }, tag: { ar: "هوية متجر إلكتروني", en: "E-commerce identity" } },
+  { cat: "video", art: "film24",  ratio: "4/3",   url: "https://drive.google.com/file/d/1tVTL8yZMelcyoll1YvpzzbxOqqyhuUYt/view",
     t: { ar: "فيلم ٢٤ ساعة", en: "24 Hour Film" }, tag: { ar: "وثائقي", en: "Documentary" },
     d: { ar: "فيلم وثائقي قصير", en: "Short documentary film" } },
-  { cat: "web",    ratio: "5/4",   url: "https://kai3382172-byte.github.io/Ican/",
+  { cat: "web", art: "ican",    ratio: "5/4",   url: "https://kai3382172-byte.github.io/Ican/",
     t: { ar: "ICAN", en: "ICAN" }, tag: { ar: "لاندنج بيدج", en: "Landing page" },
     d: { ar: "موقع تعريفي لقاعة محاضرات وتدريب في التجمع الخامس، بيعرض مقارنة أسعار السوق، الباقات، وخطوات الحجز بشكل واضح ومنظم.", en: "A landing page for a lecture and training hall in Fifth Settlement, presenting a clear market price comparison, packages, and booking steps." },
     tech: ["Landing Page", "Responsive", "HTML / CSS / JS"] },
-  { cat: "design", ratio: "1/1",   url: BE + "231761163/_", t: { ar: "حبات البن", en: "Habbat Elbon" }, tag: { ar: "هوية براند", en: "Brand identity" } },
-  { cat: "video",  ratio: "5/4",   url: "https://www.facebook.com/share/r/1KAD1YyFJK/",
+  { cat: "design", art: "beans", ratio: "1/1",   url: BE + "231761163/_", t: { ar: "حبات البن", en: "Habbat Elbon" }, tag: { ar: "هوية براند", en: "Brand identity" } },
+  { cat: "video", art: "promo",  ratio: "5/4",   url: "https://www.facebook.com/share/r/1KAD1YyFJK/",
     t: { ar: "حبات البن", en: "Habbat Elbon" }, tag: { ar: "فيديو ترويجي", en: "Promo video" },
     d: { ar: "فيديو ترويجي لمشروع حبات البن", en: "Promotional video for the Habbat Elbon project" } },
-  { cat: "web",    ratio: "4/3", url: "https://bacera-inky.vercel.app/",
+  { cat: "web", art: "baseera",    ratio: "4/3", url: "https://bacera-inky.vercel.app/",
     t: { ar: "بصيرة | Baseera", en: "Baseera" }, tag: { ar: "متجر إلكتروني", en: "E-commerce" },
     d: { ar: "متجر نظارات مصري كامل: طبية وشمس وقراءة وعدسات لاصقة، مبني بـ Next.js مع تجربة معاينة النظارة على وشك بالكاميرا (AR Try-On)، دفع عند الاستلام، وتوصيل لكل محافظات مصر.", en: "A full Egyptian eyewear e-commerce store: prescription, sunglasses, reading glasses and contact lenses, built with Next.js featuring a live AR camera try-on, cash on delivery and nationwide shipping." },
     tech: ["Next.js", "E-Commerce", "AR Try-On", "PostgreSQL"] },
-  { cat: "design", ratio: "1/1",   url: BE + "231760097/_", t: { ar: "مشروع تمكن", en: "Tamakon Project" }, tag: { ar: "هوية مشروع تطويري", en: "Development project identity" } }
+  { cat: "design", art: "tamakon", ratio: "1/1",   url: BE + "231760097/_", t: { ar: "مشروع تمكن", en: "Tamakon Project" }, tag: { ar: "هوية مشروع تطويري", en: "Development project identity" } }
 ];
 
 const XP = [
@@ -724,7 +780,8 @@ const L = {
       avail: "متاح للعمل بدوام كامل وفريلانس", iam: "أنا", n1: "خالد", n2: "أحمد",
       lede: "بخبرة عملية في إدارة حملات التواصل الاجتماعي وكتابة وإخراج وتصوير المحتوى. بحوّل الأفكار لمحتوى يوصل للناس ويأثر فيهم، وبربط بين الإبداع والنتيجة المطلوبة في كل حملة.",
       cta1: "شوف أعمالي", cta2: "تواصل معي",
-      hint: "اسحب الاستيكرز، واضغط على الصورة تاخد لقطة.",
+      hint: "اضغط على الصورة تاخد لقطة جديدة، واسحب الاستيكرز.",
+      mmT: "لقطات", mmS: "من ورا الكاميرا ومن قدّامها. اضغط على أي لقطة تكبّرها.",
       skT: "المهارات والخبرات", skS: "الأدوات والمهارات اللي بحوّل بيها الفكرة لنتيجة. مرّر على التايم لاين أو اضغط على أي مقطع.",
       xpT: "الخبرات المهنية", xpS: "محطات عملت فيها وأثبتت خبرتي في التسويق الرقمي وإنتاج المحتوى.",
       wkT: "أعمالي", wkS: "تصميم على Behance، وفيديو، ومواقع. اضغط على أي شغل تشوف التفاصيل.",
@@ -751,7 +808,7 @@ const L = {
     roles: ["مسوّق رقمي", "صانع محتوى", "مخرج فيديو", "مصمم جرافيك"],
     tape: ["مسوّق رقمي", "صانع محتوى", "مخرج فيديو", "مصمم جرافيك", "إدارة سوشيال ميديا", "استراتيجية محتوى", "SEO", "ميديا باينج"],
     cats: { all: "الكل", design: "تصميم", video: "فيديو", web: "ويب" },
-    pols: ["خالد أحمد", "القاهرة، مصر", "صانع محتوى"],
+    pols: ["خالد أحمد", "صانع محتوى", "مسوّق رقمي", "مخرج فيديو", "مصمم جرافيك"],
     chips: ["حملات سوشيال", "إعلانات ممولة", "محتوى وسكريبت", "فيديو", "تصميم", "موقع"],
     msg: (n, needs, m) => `أهلاً خالد، أنا ${n}.` + (needs.length ? ` محتاج: ${needs.join("، ")}.` : "") + `\n${m}`
   },
@@ -763,7 +820,8 @@ const L = {
       avail: "Open to full-time and freelance", iam: "I'm a", n1: "Khaled", n2: "Ahmed",
       lede: "Results-driven Digital Marketing Manager and Content Creator with 2+ years of hands-on experience planning and executing data-informed campaigns across Meta, Google, TikTok and Snapchat. I turn ideas into content that reaches people and moves them.",
       cta1: "View my work", cta2: "Get in touch",
-      hint: "Drag the stickers. Tap the photo to snap a shot.",
+      hint: "Tap the photo to snap a new shot, and drag the stickers.",
+      mmT: "Snapshots", mmS: "From behind the camera and in front of it. Tap any frame to enlarge.",
       skT: "Skills & Expertise", skS: "The tools and skills I use to turn an idea into a result. Scrub the timeline or tap a clip.",
       xpT: "Professional Experience", xpS: "Places I've worked that shaped my expertise in digital marketing and content production.",
       wkT: "My Work", wkS: "Design on Behance, video, and websites. Tap any piece for details.",
@@ -790,7 +848,7 @@ const L = {
     roles: ["Digital Marketer", "Content Creator", "Videographer", "Graphic Designer"],
     tape: ["Digital Marketer", "Content Creator", "Videographer", "Graphic Designer", "Social Media Management", "Content Strategy", "SEO", "Media Buying"],
     cats: { all: "All", design: "Design", video: "Video", web: "Web" },
-    pols: ["Khaled Ahmed", "Cairo, Egypt", "Content Creator"],
+    pols: ["Khaled Ahmed", "Content Creator", "Digital Marketer", "Videographer", "Graphic Designer"],
     chips: ["Social campaigns", "Paid ads", "Content & scripts", "Video", "Design", "Website"],
     msg: (n, needs, m) => `Hi Khaled, I'm ${n}.` + (needs.length ? ` I need: ${needs.join(", ")}.` : "") + `\n${m}`
   }
@@ -826,8 +884,160 @@ const ICONS = {
 const ico = (k, s = 20, sw = 1.8) =>
   `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
 
+/* ==================================================================
+   رسومات أغلفة المشاريع (SVG) + خلفيات
+   ================================================================== */
+const INK = "#232046";
+const C = { lemon: "#FFE14D", sky: "#A9D8FF", mint: "#9DEBCB", coral: "#FF9C93", lilac: "#CDBDFF", pink: "#FFC7E2", peach: "#FFD8A6", brown: "#8B5E3C", tan: "#D9A679", white: "#FFFFFF", paper: "#F6F7FB" };
+const sw = (w = 4) => `stroke="${INK}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
+const spark = (x, y, s, f = C.white) => `<path d="M${x} ${y - s}Q${x} ${y} ${x + s} ${y}Q${x} ${y} ${x} ${y + s}Q${x} ${y} ${x - s} ${y}Q${x} ${y} ${x} ${y - s}Z" fill="${f}" ${sw(3)}/>`;
+const bean = (x, y, r = 0, k = 1) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${k})"><ellipse rx="15" ry="10" fill="${C.brown}" ${sw(3.5)}/><path d="M-12 0Q0 -7 12 0" fill="none" stroke="${C.tan}" stroke-width="3" stroke-linecap="round"/></g>`;
+const star = (cx, cy, R, r, f) => { let p = ""; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, d = i % 2 ? r : R; p += `${(cx + Math.cos(a) * d).toFixed(1)},${(cy + Math.sin(a) * d).toFixed(1)} `; } return `<polygon points="${p}" fill="${f}" ${sw(4)}/>`; };
+const FONT = 'font-family="Readex Pro,Bricolage Grotesque,system-ui,sans-serif"';
+
+function bgl(id, base, accent, pat) {
+  const pats = {
+    dots:    `<pattern id="p-${id}" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="2.2" fill="${INK}" opacity=".16"/></pattern>`,
+    stripes: `<pattern id="p-${id}" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="22" fill="${INK}" opacity=".07"/></pattern>`,
+    grid:    `<pattern id="p-${id}" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="${INK}" stroke-width="1.5" opacity=".13"/></pattern>`,
+    plus:    `<pattern id="p-${id}" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M15 9v12M9 15h12" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" opacity=".16"/></pattern>`
+  };
+  return `<defs>${pats[pat]}</defs><rect x="-80" y="-80" width="560" height="480" fill="${base}"/>
+    <circle cx="345" cy="55" r="95" fill="${accent}" opacity=".75"/><circle cx="45" cy="285" r="75" fill="${accent}" opacity=".75"/>
+    <rect x="-80" y="-80" width="560" height="480" fill="url(#p-${id})"/>`;
+}
+
+function win(id, url, fill, inner) {
+  return `<rect x="50" y="32" width="300" height="252" rx="16" fill="${C.white}" ${sw()}/>
+    <path d="M50 72H350" ${sw(3)}/>
+    <circle cx="72" cy="52" r="5.5" fill="${C.coral}" ${sw(2)}/><circle cx="91" cy="52" r="5.5" fill="${C.lemon}" ${sw(2)}/><circle cx="110" cy="52" r="5.5" fill="${C.mint}" ${sw(2)}/>
+    <rect x="128" y="42" width="204" height="20" rx="10" fill="${C.paper}" ${sw(2.5)}/>
+    <text x="230" y="56" text-anchor="middle" ${FONT} font-size="10.5" font-weight="500" fill="${INK}">${url}</text>
+    <clipPath id="c-${id}"><rect x="52" y="74" width="296" height="208" rx="13"/></clipPath>
+    <g clip-path="url(#c-${id})"><rect x="50" y="72" width="300" height="212" fill="${fill}"/>${inner}</g>`;
+}
+
+const ART = {
+  mill: { bg: C.peach, svg: () => bgl("mill", C.peach, C.lemon, "dots") +
+    bean(78, 232, -20) + bean(322, 236, 25) + bean(92, 120, 15, .9) + bean(316, 126, -30, .9) +
+    `<ellipse cx="200" cy="280" rx="74" ry="8" fill="${INK}" opacity=".15"/>
+     <rect x="150" y="176" width="100" height="98" rx="12" fill="${C.brown}" ${sw()}/>
+     <rect x="166" y="226" width="68" height="34" rx="8" fill="${C.tan}" ${sw(3.5)}/><circle cx="200" cy="243" r="4.5" fill="#fff" ${sw(2.5)}/>
+     <path d="M128 112L272 112L238 178L162 178Z" fill="#fff" ${sw()}/>` +
+    bean(182, 142, 20, .7) + bean(216, 152, -25, .7) + bean(200, 128, 60, .7) +
+    `<rect x="122" y="98" width="156" height="18" rx="9" fill="${C.coral}" ${sw()}/>
+     <path d="M200 98V60H250" fill="none" ${sw(5)}/><circle cx="258" cy="60" r="11" fill="${C.coral}" ${sw()}/>` +
+    spark(62, 62, 14) + spark(340, 176, 11, C.lemon) },
+
+  academy: { bg: C.sky, svg: () => bgl("academy", C.sky, C.white, "grid") +
+    `<path d="M96 204V274L200 292L304 274V204Z" fill="${C.coral}" ${sw()}/>
+     <path d="M104 206L200 222V280L104 264Z" fill="#fff" ${sw()}/><path d="M200 222L296 206V264L200 280Z" fill="#fff" ${sw()}/>
+     <path d="M120 230h60M120 244h48M220 230h60M228 244h48" stroke="${INK}" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+     <path d="M150 134V166Q200 192 250 166V134Q200 158 150 134Z" fill="#3B3670" ${sw()}/>
+     <polygon points="200,76 292,112 200,148 108,112" fill="${INK}" ${sw()}/>
+     <circle cx="200" cy="112" r="5" fill="${C.lemon}"/>
+     <path d="M282 116V158" stroke="${C.lemon}" stroke-width="4.5" stroke-linecap="round"/><circle cx="282" cy="167" r="8" fill="${C.lemon}" ${sw(3)}/>
+     <g transform="translate(66 150) rotate(28)"><rect x="-9" y="-46" width="18" height="70" rx="3" fill="${C.lemon}" ${sw(3.5)}/><path d="M-9 24L0 42L9 24Z" fill="${C.peach}" ${sw(3.5)}/><rect x="-9" y="-54" width="18" height="12" rx="3" fill="${C.pink}" ${sw(3.5)}/></g>` +
+    spark(332, 78, 14, C.lemon) + spark(340, 236, 10) },
+
+  be: { bg: C.lemon, svg: () => bgl("be", C.lemon, C.peach, "stripes") +
+    `<ellipse cx="200" cy="284" rx="96" ry="8" fill="${INK}" opacity=".15"/>
+     <path d="M160 134C160 78 240 78 240 134" fill="none" ${sw(6)}/>
+     <path d="M118 132H282L294 278H106Z" fill="${C.pink}" ${sw()}/>
+     <path d="M118 150H282" stroke="${INK}" stroke-width="3" opacity=".25"/>
+     <circle cx="200" cy="208" r="42" fill="#fff" ${sw()}/>
+     <text x="200" y="219" text-anchor="middle" ${FONT} font-size="30" font-weight="800" fill="${INK}">B.E</text>
+     <g transform="translate(306 92) rotate(16)"><path d="M-34 -16H16L34 0L16 16H-34Z" fill="${C.mint}" ${sw(3.5)}/><circle cx="20" cy="0" r="4" fill="#fff" ${sw(2.5)}/><text x="-8" y="5" text-anchor="middle" ${FONT} font-size="13" font-weight="700" fill="${INK}">NEW</text></g>` +
+    spark(80, 92, 15, "#fff") + spark(336, 250, 11, "#fff") + spark(64, 232, 9, C.coral) },
+
+  beans: { bg: C.mint, svg: () => bgl("beans", C.mint, C.lilac, "plus") +
+    bean(78, 250, 20) + bean(330, 118, -20) + bean(70, 140, -40, .8) + bean(326, 226, 30, .9) +
+    `<path d="M168 140C154 122 182 112 168 90M200 136C186 116 214 104 200 80M232 140C218 122 246 112 232 90" fill="none" ${sw()}/>
+     <ellipse cx="200" cy="272" rx="102" ry="17" fill="#fff" ${sw()}/>
+     <path d="M283 186C328 184 328 246 266 246" fill="none" ${sw(6)}/>
+     <path d="M116 168H284C284 236 252 268 200 268C148 268 116 236 116 168Z" fill="${C.coral}" ${sw()}/>
+     <ellipse cx="200" cy="168" rx="84" ry="14" fill="${C.brown}" ${sw()}/><ellipse cx="200" cy="166" rx="58" ry="7" fill="${C.tan}"/>` +
+    bean(200, 222, 0, 1.15) + spark(70, 70, 13, "#fff") + spark(338, 60, 10, C.lemon) },
+
+  tamakon: { bg: C.lilac, svg: () => bgl("tamakon", C.lilac, C.pink, "grid") +
+    `<ellipse cx="206" cy="278" rx="120" ry="8" fill="${INK}" opacity=".15"/>
+     <rect x="98" y="214" width="72" height="58" fill="${C.mint}" ${sw()}/><rect x="170" y="176" width="72" height="96" fill="${C.lemon}" ${sw()}/><rect x="242" y="132" width="72" height="140" fill="${C.coral}" ${sw()}/>
+     <circle cx="134" cy="243" r="10" fill="#fff" ${sw(3)}/><circle cx="206" cy="224" r="10" fill="#fff" ${sw(3)}/><circle cx="278" cy="202" r="10" fill="#fff" ${sw(3)}/>
+     <path d="M84 196C120 128 186 108 232 98" fill="none" stroke="${INK}" stroke-width="4.5" stroke-dasharray="2 11" stroke-linecap="round"/>
+     <path d="M222 84L240 98L224 114" fill="none" ${sw(4.5)}/>` +
+    star(278, 92, 30, 13, C.lemon) +
+    `<path d="M278 46V38M312 60L318 54M244 60L238 54" ${sw(3.5)}/>` + spark(80, 90, 12, "#fff") + spark(336, 232, 10, "#fff") },
+
+  shortfilm: { bg: C.coral, svg: () => bgl("shortfilm", C.coral, C.lemon, "dots") +
+    `<rect x="96" y="134" width="208" height="126" rx="12" fill="#fff" ${sw()}/>
+     <path d="M116 190h70M116 212h50M116 234h62" stroke="${INK}" stroke-width="3.5" stroke-linecap="round" opacity=".45"/>
+     <circle cx="252" cy="212" r="27" fill="${C.sky}" ${sw()}/><path d="M244 199L266 212L244 225Z" fill="#fff" ${sw(3.5)}/>
+     <g transform="rotate(-14 96 134)"><rect x="96" y="98" width="208" height="34" rx="8" fill="#fff" ${sw()}/>` +
+    [0, 1, 2, 3, 4].map(i => `<path d="M${112 + i * 40} 132L${128 + i * 40} 98H${146 + i * 40}L${130 + i * 40} 132Z" fill="${INK}"/>`).join("") +
+    `<rect x="96" y="98" width="208" height="34" rx="8" fill="none" ${sw()}/></g>
+     <circle cx="316" cy="252" r="34" fill="${C.lemon}" ${sw()}/><circle cx="316" cy="252" r="7" fill="#fff" ${sw(3)}/>` +
+    [0, 1, 2, 3, 4].map(i => { const a = i * 72 * Math.PI / 180 - 1.2; return `<circle cx="${(316 + Math.cos(a) * 20).toFixed(1)}" cy="${(252 + Math.sin(a) * 20).toFixed(1)}" r="5.5" fill="#fff" ${sw(2.5)}/>`; }).join("") +
+    spark(70, 96, 14, "#fff") + spark(342, 120, 10, C.lemon) },
+
+  film24: { bg: C.sky, svg: () => bgl("film24", C.sky, C.mint, "stripes") +
+    `<circle cx="196" cy="148" r="98" fill="#fff" ${sw()}/>` +
+    Array.from({ length: 12 }, (_, i) => { const a = i * Math.PI / 6; return `<path d="M${(196 + Math.cos(a) * 80).toFixed(1)} ${(148 + Math.sin(a) * 80).toFixed(1)}L${(196 + Math.cos(a) * 90).toFixed(1)} ${(148 + Math.sin(a) * 90).toFixed(1)}" ${sw(4)}/>`; }).join("") +
+    `<path d="M196 148V84" ${sw(6)}/><path d="M196 148L238 172" stroke="${C.coral}" stroke-width="6.5" stroke-linecap="round"/><circle cx="196" cy="148" r="8" fill="${INK}"/>
+     <circle cx="306" cy="80" r="36" fill="${C.lemon}" ${sw()}/><text x="306" y="93" text-anchor="middle" ${FONT} font-size="36" font-weight="800" fill="${INK}">24</text>
+     <rect x="36" y="262" width="328" height="44" rx="8" fill="${INK}"/>` +
+    [C.pink, C.lemon, C.mint].map((c, i) => `<rect x="${52 + i * 104}" y="274" width="90" height="20" rx="3" fill="${c}"/>`).join("") +
+    Array.from({ length: 15 }, (_, i) => `<rect x="${44 + i * 22}" y="266" width="8" height="5" rx="1.5" fill="#fff"/><rect x="${44 + i * 22}" y="297" width="8" height="5" rx="1.5" fill="#fff"/>`).join("") +
+    spark(62, 70, 13, "#fff") },
+
+  promo: { bg: C.pink, svg: () => bgl("promo", C.pink, C.lilac, "dots") +
+    `<ellipse cx="200" cy="268" rx="120" ry="8" fill="${INK}" opacity=".15"/>
+     <rect x="72" y="70" width="256" height="184" rx="20" fill="#fff" ${sw()}/>
+     <rect x="86" y="84" width="228" height="122" rx="12" fill="${C.lemon}" ${sw()}/>
+     <circle cx="200" cy="145" r="36" fill="${C.coral}" ${sw()}/><path d="M190 128L222 145L190 162Z" fill="#fff" ${sw(3.5)}/>
+     <rect x="96" y="94" width="54" height="20" rx="10" fill="#fff" ${sw(2.5)}/><circle cx="108" cy="104" r="4.5" fill="#FF4D5E"/><text x="130" y="108" text-anchor="middle" ${FONT} font-size="10" font-weight="700" fill="${INK}">REC</text>
+     <path d="M96 232H304" stroke="${INK}" stroke-width="6" stroke-linecap="round" opacity=".2"/><path d="M96 232H188" stroke="${C.coral}" stroke-width="6" stroke-linecap="round"/><circle cx="188" cy="232" r="8.5" fill="#fff" ${sw(3)}/>
+     <circle cx="326" cy="64" r="27" fill="${C.mint}" ${sw()}/><path d="M326 78S312 69 312 60A7 7 0 0 1 326 58A7 7 0 0 1 340 60C340 69 326 78 326 78Z" fill="${C.coral}" ${sw(3)}/>` +
+    spark(66, 86, 13, "#fff") + spark(344, 226, 10, C.lemon) },
+
+  action: { bg: C.coral, svg: () => bgl("action", C.coral, C.lemon, "stripes") +
+    win("action", "github.io/actionstudios", INK,
+      `<circle cx="200" cy="140" r="78" fill="none" stroke="${C.coral}" stroke-width="4" stroke-dasharray="4 14" stroke-linecap="round"/>
+       <circle cx="200" cy="140" r="104" fill="none" stroke="${C.lemon}" stroke-width="3.5" stroke-dasharray="3 18" stroke-linecap="round"/>
+       <rect x="176" y="98" width="48" height="84" rx="24" fill="${C.coral}" stroke="${C.lemon}" stroke-width="4"/>
+       <path d="M188 118h24M188 132h24M188 146h24" stroke="${C.lemon}" stroke-width="3.5" stroke-linecap="round"/>
+       <path d="M160 156C160 206 240 206 240 156" fill="none" stroke="${C.lemon}" stroke-width="5" stroke-linecap="round"/>
+       <path d="M200 198V232M176 234H224" stroke="${C.lemon}" stroke-width="5" stroke-linecap="round"/>
+       <path d="M52 284V238L112 252L98 284Z" fill="${C.coral}"/><path d="M84 284L118 258L146 284Z" fill="${C.lemon}"/>
+       <path d="M348 284V232L290 246L304 284Z" fill="${C.coral}"/><path d="M262 284L300 252L330 284Z" fill="${C.lemon}"/>
+       <circle cx="84" cy="112" r="6" fill="${C.lemon}"/><circle cx="318" cy="110" r="5" fill="${C.coral}"/>`) +
+    spark(38, 70, 12, "#fff") + spark(364, 250, 10, "#fff") },
+
+  ican: { bg: C.sky, svg: () => bgl("ican", C.sky, C.mint, "grid") +
+    win("ican", "github.io/Ican", "#DCEFFF",
+      `<rect x="80" y="92" width="152" height="106" rx="8" fill="#fff" ${sw()}/>
+       <rect x="98" y="162" width="20" height="26" fill="${C.coral}" ${sw(3)}/><rect x="126" y="148" width="20" height="40" fill="${C.lemon}" ${sw(3)}/><rect x="154" y="132" width="20" height="56" fill="${C.mint}" ${sw(3)}/><rect x="182" y="114" width="20" height="74" fill="${C.lilac}" ${sw(3)}/>
+       <path d="M110 150L140 138L168 120L204 102" fill="none" ${sw(3)} stroke-dasharray="1 8"/>
+       <path d="M120 198L110 240M192 198L202 240" ${sw(4)}/>
+       <polygon points="288,96 330,112 288,128 246,112" fill="${INK}"/><path d="M264 122V140Q288 152 312 140V122Q288 134 264 122Z" fill="#3B3670" ${sw(3)}/><circle cx="330" cy="140" r="6" fill="${C.lemon}" ${sw(2.5)}/><path d="M330 114V134" stroke="${C.lemon}" stroke-width="3.5" stroke-linecap="round"/>
+       <circle cx="262" cy="212" r="11" fill="${C.peach}" ${sw(3)}/><rect x="238" y="222" width="56" height="28" rx="7" fill="${C.mint}" ${sw(3.5)}/>
+       <circle cx="322" cy="226" r="11" fill="${C.pink}" ${sw(3)}/><rect x="298" y="236" width="52" height="28" rx="7" fill="${C.lemon}" ${sw(3.5)}/>`) +
+    spark(36, 92, 12, "#fff") + spark(366, 232, 10, "#fff") },
+
+  baseera: { bg: C.lilac, svg: () => bgl("baseera", C.lilac, C.lemon, "dots") +
+    win("baseera", "bacera-inky.vercel.app", "#EAE3FF",
+      `<rect x="142" y="92" width="116" height="24" rx="12" fill="${C.lemon}" ${sw(3)}/><text x="200" y="108.5" text-anchor="middle" ${FONT} font-size="11.5" font-weight="700" fill="${INK}">AR TRY-ON</text>
+       <path d="M92 152V132H114M308 152V132H286M92 222V242H114M308 222V242H286" fill="none" ${sw(4.5)}/>
+       <path d="M110 176L96 166M290 176L304 166" ${sw(6)}/>
+       <rect x="110" y="158" width="82" height="64" rx="28" fill="${C.lilac}" fill-opacity=".85" ${sw(6)}/><rect x="208" y="158" width="82" height="64" rx="28" fill="${C.lilac}" fill-opacity=".85" ${sw(6)}/>
+       <path d="M192 180Q200 172 208 180" fill="none" ${sw(6)}/>
+       <path d="M126 176L146 170M224 176L244 170" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+       <g transform="translate(304 258) rotate(-14)"><rect x="-32" y="-13" width="64" height="26" rx="8" fill="${C.coral}" ${sw(3.5)}/><circle cx="-20" cy="0" r="3.5" fill="#fff"/><text x="6" y="4.5" text-anchor="middle" ${FONT} font-size="10.5" font-weight="700" fill="${INK}">COD</text></g>`) +
+    spark(38, 84, 12, C.lemon) + spark(364, 246, 10, "#fff") }
+};
+const artSVG = (k, meet) => `<svg class="art" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid ${meet ? "meet" : "slice"}" aria-hidden="true">${ART[k].svg()}</svg>`;
+
 const CAT = { design: { c: "--pink", icon: "design" }, video: { c: "--sky", icon: "play" }, web: { c: "--mint", icon: "code" } };
-const POL_COLORS = ["var(--sky)", "var(--lemon)", "var(--pink)"];
+const POL_COLORS = ["var(--sky)", "var(--lemon)", "var(--pink)", "var(--mint)", "var(--lilac)"];
 
 /* ==================================================================
    4) الحالة
@@ -835,7 +1045,7 @@ const POL_COLORS = ["var(--sky)", "var(--lemon)", "var(--pink)"];
 let lang = "ar";
 try { lang = localStorage.getItem("kh-lang") || "ar"; } catch (e) {}
 if (!L[lang]) lang = "ar";
-let active = 0, filter = "all", roleI = 0, polOrder = [0, 1, 2], statsDone = false;
+let active = 0, filter = "all", roleI = 0, polOrder = [0, 1, 2, 3, 4], statsDone = false;
 const D = () => L[lang];
 const T = o => o[lang];
 
@@ -909,14 +1119,10 @@ function renderWork(animate) {
   const list = PROJECTS.map((p, i) => ({ ...p, i })).filter(p => filter === "all" || p.cat === filter);
   const grid = $("#grid");
   grid.classList.toggle("pop", !!animate && !reduce);
-  grid.innerHTML = list.map((p, k) => {
-    const c = CAT[p.cat];
-    return `<button type="button" class="card" data-i="${p.i}" style="--d:${k * 70}ms">
-      <span class="cover" style="--c:var(${c.c});aspect-ratio:${p.ratio}"><span class="cover-ic">${ico(c.icon, 120, 1.2)}</span>
-        <span class="cover-t">${T(p.t)}</span>
+  grid.innerHTML = list.map((p, k) => `<button type="button" class="card" data-i="${p.i}" style="--d:${k * 70}ms">
+      <span class="cover" style="--c:${ART[p.art].bg};aspect-ratio:${p.ratio}">${artSVG(p.art)}
         <span class="badge">${d.cats[p.cat]}</span><span class="playb">${ico("ext", 18)}</span></span>
-      <span class="cs"><b>${T(p.tag)}</b>${p.d ? T(p.d) : ""}</span></button>`;
-  }).join("");
+      <span class="ct">${T(p.t)}</span><span class="cs"><b>${T(p.tag)}</b>${p.d ? T(p.d) : ""}</span></button>`).join("");
 }
 
 function renderMore() {
@@ -945,10 +1151,15 @@ function renderStrip() {
 
 function renderPolas() {
   const d = D();
-  $("#polas").innerHTML = [0, 1, 2].map(i => `
+  $("#polas").innerHTML = polOrder.slice().sort((a, b) => a - b).map(i => `
     <figure class="pl" data-k="${i}" data-pos="${polOrder.indexOf(i)}">
-      <div class="pl-img" style="--c:${POL_COLORS[i]}">${ico("photo", 64, 1.3)}<img src="assets/p${i + 1}.jpg" alt="" onerror="this.remove()"></div>
+      <div class="pl-img" style="--c:${POL_COLORS[i]}">${ico("photo", 64, 1.3)}<img src="assets/p${i + 1}.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
       <figcaption>${d.pols[i]}</figcaption></figure>`).join("");
+}
+
+function renderReel() {
+  $("#reel").innerHTML = [1, 2, 3, 4, 5].map(i => `<button type="button" class="shot" data-i="${i}" aria-label="Photo ${i}">
+    <img src="assets/s${i}.jpg" alt="" loading="lazy" onerror="this.closest('.shot').remove()"><span class="no">${pad(i)}</span></button>`).join("");
 }
 
 const STATS = [{ n: 20, suf: "K+", c: "var(--lemon)", k: "st1" }, { n: 5, suf: "+", c: "var(--sky)", k: "st2" }, { n: 2, suf: "+", c: "var(--mint)", k: "st3" }];
@@ -1011,7 +1222,7 @@ function applyLang() {
   $("#roleWord").textContent = d.roles[roleI % d.roles.length];
   renderTape(); renderTimeline(); showService(active, { animate: false });
   renderXP(); renderFilters(); renderWork(false); renderMore(); renderStrip();
-  renderPolas(); renderStats(); renderChips(); renderInfo();
+  renderPolas(); renderReel(); renderStats(); renderChips(); renderInfo();
 }
 
 /* ==================================================================
@@ -1054,9 +1265,17 @@ frame.addEventListener("pointermove", e => {
   ret.style.setProperty("--y", clamp(e.clientY - r.top, 50, r.height - 50) + "px");
 });
 frame.addEventListener("pointerleave", () => { ret.style.removeProperty("--x"); ret.style.removeProperty("--y"); });
+const HERO = ["assets/khaled.jpg", "assets/h2.jpg", "assets/h3.jpg", "assets/h4.jpg", "assets/h5.jpg"];
+let heroI = 0;
+HERO.slice(1).forEach(src => { const im = new Image(); im.src = src; });   // preload
 frame.addEventListener("click", () => {
   flash.classList.remove("on"); void flash.offsetWidth; flash.classList.add("on");
   ret.classList.add("lock"); setTimeout(() => ret.classList.remove("lock"), 450);
+  setTimeout(() => {
+    heroI = (heroI + 1) % HERO.length;
+    const img = $(".portrait"); if (img) img.src = HERO[heroI];
+    $("#shots").textContent = `IMG ${heroI + 1}/${HERO.length}`;
+  }, 110);
 });
 
 /* Draggable stickers */
@@ -1107,8 +1326,8 @@ $("#grid").addEventListener("click", e => {
   const c = e.target.closest(".card"); if (!c) return;
   const p = PROJECTS[+c.dataset.i], cat = CAT[p.cat], u = D().ui;
   const cov = $("#dlgCover");
-  cov.style.setProperty("--c", `var(${cat.c})`);
-  cov.innerHTML = ico(cat.icon, 84, 1.2);
+  cov.style.setProperty("--c", ART[p.art].bg);
+  cov.innerHTML = artSVG(p.art, true);
   $("#dlgTag").textContent = T(p.tag);
   $("#dlgT").textContent = T(p.t);
   $("#dlgD").textContent = p.d ? T(p.d) : u.designD;
@@ -1128,6 +1347,16 @@ function shufflePolas() {
 }
 $("#polas").addEventListener("click", shufflePolas);
 $("#polas").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); shufflePolas(); } });
+
+/* Reel lightbox */
+const pdlg = $("#pdlg");
+$("#reel").addEventListener("click", e => {
+  const b = e.target.closest(".shot"); if (!b) return;
+  $("#pdImg").src = `assets/s${b.dataset.i}.jpg`;
+  pdlg.showModal();
+});
+$("#pdClose").addEventListener("click", () => pdlg.close());
+pdlg.addEventListener("click", e => { if (e.target === pdlg) pdlg.close(); });
 
 /* Contact */
 const clap = $("#clap");
