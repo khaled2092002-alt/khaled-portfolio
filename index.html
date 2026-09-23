@@ -1297,7 +1297,12 @@ async function submitComment(ev) {
     if (data.ok) {
       stat.textContent = d.cmSent;
       ev.currentTarget.reset();
-      loadComments();
+      if (data.comment) {
+        const list = $("#clist");
+        const empty = list.querySelector(".cempty");
+        if (empty) empty.remove();
+        list.insertAdjacentHTML("afterbegin", commentRow(data.comment));
+      }
     } else {
       stat.textContent = d.cmFail;
     }
