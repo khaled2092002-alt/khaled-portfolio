@@ -443,6 +443,14 @@ html[lang="en"] .wbody h3{font-weight:800;letter-spacing:-.03em;font-size:1.45re
 .wd-more p{font-weight:500}
 @media (max-width:1000px){.wd{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.wd{grid-template-columns:1fr}}
+
+/* ---------- Comments (Cusdis) ---------- */
+.cbox{margin-top:2.4rem;background:#fff;border:1.5px solid var(--ink);border-radius:32px;box-shadow:0 6px 0 var(--ink);padding:clamp(1.3rem,3.4vw,2.4rem)}
+.cbox .cusdis{max-width:none}
+.cbox iframe{width:100%!important;border:0}
+.cneed{display:flex;align-items:flex-start;gap:.9rem;background:var(--paper);border:1.5px dashed var(--ink);border-radius:20px;padding:1rem 1.2rem;color:var(--ink2);font-size:.95rem;line-height:1.8}
+.cneed svg{flex:none;margin-top:.2rem}
+.cneed b{color:var(--ink)}
 </style>
 </head>
 
@@ -639,6 +647,15 @@ html[lang="en"] .wbody h3{font-weight:800;letter-spacing:-.03em;font-size:1.45re
     </form>
   </div>
 </section>
+
+<!-- COMMENTS -->
+<section class="sec" id="comments">
+  <div class="wrap">
+    <h2 class="h2" data-i18n="cmT">الكومنتات</h2>
+    <p class="sub" data-i18n="cmS"></p>
+    <div class="cbox" id="cbox"></div>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -692,6 +709,12 @@ const CONFIG = {
   drive:     "https://drive.google.com/drive/folders/1DF7_XRQm1yi1sH1j15nvZTQQet3ebXuI",
   driveWeb:  "https://drive.google.com/drive/folders/1689bQWxWC4-hiWJTHx-QCnyGHnys_ubd?usp=drive_link",
   driveCert: "https://drive.google.com/drive/folders/11F7t5NabjepguMxQlREWy7P6HyziWtu5?usp=drive_link"
+};
+
+/* كومنتات Cusdis — بعد ما تعمل حساب مجاني ضع الـ App ID هنا */
+const CUS = {
+  appId: "",
+  host: "https://cusdis.com"
 };
 
 /* المهارات: at/w = مكان وعرض المقطع في التايم لاين */
@@ -844,6 +867,8 @@ const L = {
       send: "إرسال الرسالة", sending: "جاري الإرسال...", note: "ابعت وهرد عليك في أقرب وقت.",
       sent: "اتبعتت رسالتك. هرد عليك قريب.", fail: "مقدرتش أبعتها من هنا، فتحتلك الإيميل تبعتها منه.",
       foot: "© 2026 Khaled Ahmed. جميع الحقوق محفوظة.", close: "إغلاق",
+      cmT: "الكومنتات", cmS: "اكتب رأيك أو سؤالك في أي مشروع، وهيظهر هنا للجميع.",
+      cmNeed: "قسم الكومنتات جاهز، بس محتاج بس صاحب الموقع يربطه بحساب Cusdis المجاني ويضيف الـ App ID.",
       lnkDesign: "شوف على Behance", lnkVideo: "شاهد الفيديو", lnkWeb: "زيارة الموقع المباشر", lnkGeneric: "افتح",
       designD: "أحد أعمالي في التصميم الجرافيكي، منشور على Behance.",
       f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance"
@@ -887,6 +912,8 @@ const L = {
       send: "Send Message", sending: "Sending...", note: "Send it and I'll get back to you as soon as possible.",
       sent: "Message sent. I'll reply soon.", fail: "Couldn't send it from here, so I opened your email app instead.",
       foot: "© 2026 Khaled Ahmed. All rights reserved.", close: "Close",
+      cmT: "Comments", cmS: "Write your feedback or ask about any project — it will appear here for everyone.",
+      cmNeed: "The comments section is ready — it just needs the site owner to connect it to a free Cusdis account and add the App ID.",
       lnkDesign: "View on Behance", lnkVideo: "Watch the video", lnkWeb: "Visit live site", lnkGeneric: "Open",
       designD: "One of my graphic design projects, published on Behance.",
       f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance"
@@ -926,7 +953,8 @@ const ICONS = {
   photo:     '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.6"/>',
   direction: '<path d="M3 10h18v10H3zM3 10l2.2-5.5 4 1.2L7 11M9.2 5.7l4 1.2L11 11M13.2 6.9l4 1.2L15 11"/>',
   edit:      '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 8l11 10M8.5 16l11-10"/>',
-  star:      '<path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" fill="currentColor"/>'
+  star:      '<path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" fill="currentColor"/>',
+  chat:      '<path d="M21 14a2 2 0 0 1-2 2H8l-5 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'
 };
 const ico = (k, s = 20, sw = 1.8) =>
   `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
@@ -1188,6 +1216,34 @@ function renderWeb() {
   $("#wdMore").innerHTML = `<p>${d.wdMore}</p><a class="btn sm" href="${CONFIG.driveWeb}" target="_blank" rel="noopener">${d.wdDrive}${ico("ext", 15)}</a>`;
 }
 
+let cusLoaded = false;
+function renderComments() {
+  const box = $("#cbox");
+  if (!box) return;
+  const d = D().ui;
+  if (!CUS.appId) {
+    box.innerHTML = `<div class="cneed">${ico("chat", 22)}<span><b>${d.cmT}</b><br>${d.cmNeed}</span></div>`;
+    return;
+  }
+  if ($("#cusdis_thread")) return;
+  box.innerHTML =
+    `<div id="cusdis_thread" data-host="${CUS.host}"
+          data-app-id="${CUS.appId}"
+          data-page-id="khaled-portfolio"
+          data-page-url="${location.origin}${location.pathname}"
+          data-page-title="Khaled Ahmed Portfolio"></div>`;
+  if (!cusLoaded) {
+    cusLoaded = true;
+    const s = document.createElement("script");
+    s.src = `${CUS.host}/js/cusdis.es.js`;
+    s.async = true;
+    s.crossOrigin = "anonymous";
+    document.head.appendChild(s);
+  } else if (window.CUSDIS && window.CUSDIS.render) {
+    try { window.CUSDIS.render(); } catch (e) {}
+  }
+}
+
 function renderMore() {
   const d = D().ui;
   $("#more").innerHTML =
@@ -1285,6 +1341,7 @@ function applyLang() {
   renderTape(); renderTimeline(); showService(active, { animate: false });
   renderXP(); renderFilters(); renderWork(false); renderWeb(); renderMore(); renderStrip();
   renderPolas(); renderReel(); renderStats(); renderChips(); renderInfo();
+  renderComments();
 }
 
 /* ==================================================================
