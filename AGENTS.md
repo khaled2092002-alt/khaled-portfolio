@@ -42,8 +42,12 @@ this repo's `main`) and `https://khaled2092002-alt.github.io/khaled-portfolio/`
 - There is NO global git identity on this machine. Always pass it inline:
   `git -C <repo> -c user.name="Khaled Ahmed" -c user.email="khaled2092002@gmail.com" commit -m "..."`
 - Remote: `https://github.com/khaled2092002-alt/khaled-portfolio.git`, branch
-  `main`. Push with a token in the URL (existing tokens get revoked and rotated
-  — ask the user for a fresh one each time).
+  `main`. The local clone's `origin` is set up with the token embedded, so a
+  plain `git push` works without re-pasting credentials. The token is stored
+  ONLY in the local clone's config + in
+  `Downloads\portfolio-comments-worker\.deploy-env.ps1` — never in committed
+  files, never paste in chat. GH_TOKEN (from dot-sourcing that script) holds
+  the same value if a fresh push URL needs building.
 - Vercel builds from `main`, so a successful push updates the live site within
   ~1 minute.
 
