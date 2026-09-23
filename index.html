@@ -444,13 +444,26 @@ html[lang="en"] .wbody h3{font-weight:800;letter-spacing:-.03em;font-size:1.45re
 @media (max-width:1000px){.wd{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.wd{grid-template-columns:1fr}}
 
-/* ---------- Comments (Cusdis) ---------- */
+/* ---------- Comments (Cloudflare Worker) ---------- */
 .cbox{margin-top:2.4rem;background:#fff;border:1.5px solid var(--ink);border-radius:32px;box-shadow:0 6px 0 var(--ink);padding:clamp(1.3rem,3.4vw,2.4rem)}
-.cbox .cusdis{max-width:none}
-.cbox iframe{width:100%!important;border:0}
 .cneed{display:flex;align-items:flex-start;gap:.9rem;background:var(--paper);border:1.5px dashed var(--ink);border-radius:20px;padding:1rem 1.2rem;color:var(--ink2);font-size:.95rem;line-height:1.8}
 .cneed svg{flex:none;margin-top:.2rem}
 .cneed b{color:var(--ink)}
+.cform{display:grid;gap:1rem}
+.cform > input[type="text"],.cform textarea{width:100%;background:var(--paper);border:1.5px solid var(--ink);border-radius:16px;padding:.85rem 1rem;line-height:1.6;transition:background .2s}
+.cform > input:focus,.cform textarea:focus{background:#fff;outline:3px solid var(--lemon);outline-offset:0}
+.crow-end{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.cstat{font-size:.9rem;color:var(--ink2);font-weight:500}
+.clist{display:grid;gap:1rem;margin-top:1.8rem;scroll-margin-top:100px}
+.comment{position:relative;display:grid;grid-template-columns:auto 1fr;column-gap:1rem;row-gap:.35rem;background:var(--paper);border:1.5px solid var(--ink);border-radius:22px;padding:1.1rem 1.3rem}
+.cava{grid-row:span 2;width:48px;height:48px;border-radius:16px;background:var(--c,#FFE14D);border:1.5px solid var(--ink);display:grid;place-items:center;font:400 1.35rem/1 var(--display);transform:rotate(-3deg)}
+.cmeta{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
+.cmeta b{font-weight:600;font-size:1.02rem}
+.cmeta time{color:var(--ink2);font-size:.8rem}
+.comment p{margin:0;color:var(--ink2);font-size:.97rem;line-height:1.8;unicode-bidi:plaintext;text-align:start}
+.cdel{position:absolute;top:.6rem;inset-inline-end:.6rem;width:28px;height:28px;border-radius:10px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-size:.8rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .15s var(--ease)}
+.cdel:hover{background:var(--coral);transform:rotate(90deg)}
+.cempty{display:flex;align-items:center;justify-content:center;gap:.6rem;color:var(--ink2);text-align:center;padding:2rem;border:1.5px dashed var(--ink);border-radius:20px;margin:0}
 </style>
 </head>
 
@@ -711,11 +724,9 @@ const CONFIG = {
   driveCert: "https://drive.google.com/drive/folders/11F7t5NabjepguMxQlREWy7P6HyziWtu5?usp=drive_link"
 };
 
-/* كومنتات Cusdis — بعد ما تعمل حساب مجاني ضع الـ App ID هنا */
-const CUS = {
-  appId: "",
-  host: "https://cusdis.com"
-};
+/* كومنتات Cloudflare — ضع رابط الـ Worker هنا بعد نشره، والـ page id ثابت */
+const COMMENTS_API = "";
+const COMMENTS_PAGE = "khaled-portfolio";
 
 /* المهارات: at/w = مكان وعرض المقطع في التايم لاين */
 const SKILLS = [
@@ -868,7 +879,11 @@ const L = {
       sent: "اتبعتت رسالتك. هرد عليك قريب.", fail: "مقدرتش أبعتها من هنا، فتحتلك الإيميل تبعتها منه.",
       foot: "© 2026 Khaled Ahmed. جميع الحقوق محفوظة.", close: "إغلاق",
       cmT: "الكومنتات", cmS: "اكتب رأيك أو سؤالك في أي مشروع، وهيظهر هنا للجميع.",
-      cmNeed: "قسم الكومنتات جاهز، بس محتاج بس صاحب الموقع يربطه بحساب Cusdis المجاني ويضيف الـ App ID.",
+      cmNamePh: "اسمك", cmContentPh: "اكتب كومنتك هنا...", cmSend: "نشر الكومنت", cmSending: "جاري النشر...",
+      cmSent: "تم نشر كومنتك.", cmFail: "مقدرناش ننشر الكومنت، حاول تاني.", cmLoading: "جاري تحميل الكومنتات...",
+      cmEmpty: "لسه مفيش كومنتات — كن أول من يكتب!",
+      cmErr: "حصلت مشكلة في تحميل الكومنتات.",
+      cmNeed: "قسم الكومنتات جاهز — صاحب الموقع محتاج بس ينشر الـ Cloudflare Worker ويضيف رابطه في الكود لتظهر الكومنتات هنا.",
       lnkDesign: "شوف على Behance", lnkVideo: "شاهد الفيديو", lnkWeb: "زيارة الموقع المباشر", lnkGeneric: "افتح",
       designD: "أحد أعمالي في التصميم الجرافيكي، منشور على Behance.",
       f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance"
@@ -913,7 +928,11 @@ const L = {
       sent: "Message sent. I'll reply soon.", fail: "Couldn't send it from here, so I opened your email app instead.",
       foot: "© 2026 Khaled Ahmed. All rights reserved.", close: "Close",
       cmT: "Comments", cmS: "Write your feedback or ask about any project — it will appear here for everyone.",
-      cmNeed: "The comments section is ready — it just needs the site owner to connect it to a free Cusdis account and add the App ID.",
+      cmNamePh: "Your name", cmContentPh: "Write your comment here...", cmSend: "Post comment", cmSending: "Posting...",
+      cmSent: "Your comment was posted.", cmFail: "Couldn't post the comment, please try again.", cmLoading: "Loading comments...",
+      cmEmpty: "No comments yet — be the first to write one!",
+      cmErr: "Something went wrong loading the comments.",
+      cmNeed: "The comments section is ready — the owner just needs to deploy the Cloudflare Worker and paste its URL here so comments can appear.",
       lnkDesign: "View on Behance", lnkVideo: "Watch the video", lnkWeb: "Visit live site", lnkGeneric: "Open",
       designD: "One of my graphic design projects, published on Behance.",
       f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance"
@@ -1216,32 +1235,117 @@ function renderWeb() {
   $("#wdMore").innerHTML = `<p>${d.wdMore}</p><a class="btn sm" href="${CONFIG.driveWeb}" target="_blank" rel="noopener">${d.wdDrive}${ico("ext", 15)}</a>`;
 }
 
-let cusLoaded = false;
+let commentsHooked = false;
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function commentRow(c) {
+  const isAdmin = localStorage.getItem("cf-admin") === "1";
+  const rtf = new Intl.RelativeTimeFormat(lang, { numeric: "auto" });
+  const diff = c.created - Date.now();
+  const abs = Math.abs(diff);
+  let when;
+  if (abs < 60e3) when = rtf.format(Math.round(diff / 1e3), "second");
+  else if (abs < 36e5) when = rtf.format(Math.round(diff / 6e4), "minute");
+  else if (abs < 864e5) when = rtf.format(Math.round(diff / 36e5), "hour");
+  else if (abs < 2592e6) when = rtf.format(Math.round(diff / 864e5), "day");
+  else when = new Date(c.created).toLocaleDateString(lang === "ar" ? "ar-EG" : "en-GB");
+  const colors = ["var(--lemon)", "var(--sky)", "var(--mint)", "var(--coral)", "var(--lilac)", "var(--pink)", "var(--peach)", "var(--lime)"];
+  const cc = colors[(c.id.charCodeAt(0) || 65) % colors.length];
+  return `<article class="comment">
+    ${isAdmin ? `<button class="cdel" type="button" data-id="${esc(c.id)}" aria-label="Delete">✕</button>` : ""}
+    <span class="cava" style="--c:${cc}">${esc(c.name.slice(0, 1).toUpperCase())}</span>
+    <div class="cmeta"><b>${esc(c.name)}</b><time>${when}</time></div>
+    <p>${esc(c.content)}</p>
+  </article>`;
+}
+
+async function loadComments() {
+  const list = $("#clist");
+  if (!list) return;
+  const d = D().ui;
+  list.innerHTML = `<p class="cempty">${ico("chat", 20)} ${esc(d.cmLoading)}</p>`;
+  try {
+    const r = await fetch(COMMENTS_API + "?page=" + encodeURIComponent(COMMENTS_PAGE));
+    const data = await r.json();
+    if (!data.ok) throw new Error("bad");
+    list.innerHTML = data.comments.length
+      ? data.comments.map(commentRow).join("")
+      : `<p class="cempty">${ico("chat", 20)} ${esc(d.cmEmpty)}</p>`;
+  } catch (e) {
+    list.innerHTML = `<p class="cempty">${ico("chat", 20)} ${esc(d.cmErr)}</p>`;
+  }
+}
+
+async function submitComment(ev) {
+  ev.preventDefault();
+  const d = D().ui;
+  const btn = $("#cSend"), stat = $("#cstat");
+  const name = $("#cName").value.trim(), content = $("#cContent").value.trim();
+  const honey = ev.currentTarget.querySelector(".hp").value;
+  if (!name || !content) return;
+  btn.disabled = true;
+  stat.textContent = d.cmSending;
+  try {
+    const r = await fetch(COMMENTS_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: COMMENTS_PAGE, name, content, honey })
+    });
+    const data = await r.json();
+    if (data.ok) {
+      stat.textContent = d.cmSent;
+      ev.currentTarget.reset();
+      loadComments();
+    } else {
+      stat.textContent = d.cmFail;
+    }
+  } catch (e) {
+    stat.textContent = d.cmFail;
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => { stat.textContent = ""; }, 4000);
+  }
+}
+
+function deleteComment(id) {
+  fetch(COMMENTS_API + "?page=" + encodeURIComponent(COMMENTS_PAGE) + "&id=" + encodeURIComponent(id), { method: "DELETE" })
+    .then(r => r.json())
+    .then(data => { if (data.ok) { const el = document.querySelector(`.cdel[data-id="${id}"]`); if (el) el.closest(".comment").remove(); } })
+    .catch(() => {});
+}
+
 function renderComments() {
   const box = $("#cbox");
   if (!box) return;
   const d = D().ui;
-  if (!CUS.appId) {
+  if (!COMMENTS_API) {
     box.innerHTML = `<div class="cneed">${ico("chat", 22)}<span><b>${d.cmT}</b><br>${d.cmNeed}</span></div>`;
     return;
   }
-  if ($("#cusdis_thread")) return;
-  box.innerHTML =
-    `<div id="cusdis_thread" data-host="${CUS.host}"
-          data-app-id="${CUS.appId}"
-          data-page-id="khaled-portfolio"
-          data-page-url="${location.origin}${location.pathname}"
-          data-page-title="Khaled Ahmed Portfolio"></div>`;
-  if (!cusLoaded) {
-    cusLoaded = true;
-    const s = document.createElement("script");
-    s.src = `${CUS.host}/js/cusdis.es.js`;
-    s.async = true;
-    s.crossOrigin = "anonymous";
-    document.head.appendChild(s);
-  } else if (window.CUSDIS && window.CUSDIS.render) {
-    try { window.CUSDIS.render(); } catch (e) {}
+  box.innerHTML = `
+    <form class="cform" id="cform" autocomplete="off">
+      <input class="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input id="cName" type="text" maxlength="60" required placeholder="${esc(d.cmNamePh)}">
+      <textarea id="cContent" rows="3" maxlength="500" required placeholder="${esc(d.cmContentPh)}"></textarea>
+      <div class="crow-end">
+        <button class="btn pri sm" type="submit" id="cSend">${esc(d.cmSend)}</button>
+        <span class="cstat" id="cstat"></span>
+      </div>
+    </form>
+    <div class="clist" id="clist"></div>`;
+  if (!commentsHooked) {
+    commentsHooked = true;
+    $("#cform").addEventListener("submit", submitComment);
+    $("#clist").addEventListener("click", e => {
+      const btn = e.target.closest(".cdel");
+      if (btn) deleteComment(btn.dataset.id);
+    });
   }
+  loadComments();
 }
 
 function renderMore() {
