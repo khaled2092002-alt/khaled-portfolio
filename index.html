@@ -1278,6 +1278,38 @@ async function loadComments() {
   }
 }
 
+const PENDING_KEY = "kh-pending-comments";
+function readPending() {
+  try { return JSON.parse(localStorage.getItem(PENDING_KEY)) || []; } catch (e) { return []; }
+}
+function savePending(arr) {
+  try { localStorage.setItem(PENDING_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+async function sendComment(c) {
+  try {
+    const r = await fetch(COMMENTS_API + "?page=" + encodeURIComponent(COMMENTS_PAGE), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: COMMENTS_PAGE, name: c.name, content: c.content, honey: c.honey || "" })
+    });
+    const data = await r.json();
+    return !!(data && data.ok);
+  } catch (e) {
+    return false;
+  }
+}
+async function tryFlushPending() {
+  const arr = readPending();
+  if (!arr.length) return;
+  const left = [];
+  for (const c of arr) {
+    const ok = await sendComment(c);
+    if (!ok) left.push(c);
+  }
+  savePending(left);
+}
+setInterval(tryFlushPending, 15000);
+
 async function submitComment(ev) {
   ev.preventDefault();
   const d = D().ui;
@@ -1287,31 +1319,21 @@ async function submitComment(ev) {
   if (!name || !content) return;
   btn.disabled = true;
   stat.textContent = d.cmSending;
-  try {
-    const r = await fetch(COMMENTS_API + "?page=" + encodeURIComponent(COMMENTS_PAGE), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ page: COMMENTS_PAGE, name, content, honey })
-    });
-    const data = await r.json();
-    if (data.ok) {
-      stat.textContent = d.cmSent;
-      ev.currentTarget.reset();
-      if (data.comment) {
-        const list = $("#clist");
-        const empty = list.querySelector(".cempty");
-        if (empty) empty.remove();
-        list.insertAdjacentHTML("afterbegin", commentRow(data.comment));
-      }
-    } else {
-      stat.textContent = d.cmFail;
-    }
-  } catch (e) {
-    stat.textContent = d.cmFail;
-  } finally {
-    btn.disabled = false;
-    setTimeout(() => { stat.textContent = ""; }, 4000);
+  const list = $("#clist");
+  const empty = list.querySelector(".cempty");
+  if (empty) empty.remove();
+  list.insertAdjacentHTML("afterbegin", commentRow({ id: "local-" + Date.now(), name, content, created: Date.now() }));
+  ev.currentTarget.reset();
+  const ok = await sendComment({ name, content, honey });
+  if (!ok) {
+    const pending = readPending();
+    pending.push({ name, content, honey: "" });
+    savePending(pending);
+    tryFlushPending();
   }
+  stat.textContent = d.cmSent;
+  btn.disabled = false;
+  setTimeout(() => { stat.textContent = ""; }, 4000);
 }
 
 function deleteComment(id) {
