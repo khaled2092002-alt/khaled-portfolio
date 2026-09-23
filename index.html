@@ -1288,7 +1288,7 @@ async function submitComment(ev) {
   btn.disabled = true;
   stat.textContent = d.cmSending;
   try {
-    const r = await fetch(COMMENTS_API, {
+    const r = await fetch(COMMENTS_API + "?page=" + encodeURIComponent(COMMENTS_PAGE), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ page: COMMENTS_PAGE, name, content, honey })
