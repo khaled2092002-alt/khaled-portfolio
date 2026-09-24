@@ -16,10 +16,21 @@ this repo's `main`) and `https://khaled2092002-alt.github.io/khaled-portfolio/`
 - API: `GET ?page=` returns `{ok, comments}`; `POST {page,name,content,honey}`
   adds a comment (max 60/500 chars, honeypot field); `DELETE ?page=&id=`
   removes one. All responses are CORS-open.
+- Publishing is optimistic: the comment is inserted into the DOM instantly
+  from the POST response; on network failure it stays visible and a background
+  queue (`localStorage["kh-pending-comments"]`, flushed every 15s) syncs it.
+  Duplicates within 10s (same name+text) are rejected server-side.
 - Delete moderation (owner only): open browser console and run
   `localStorage.setItem("cf-admin","1")`, then reload — a ✕ delete button
   appears on every comment in-UI.
 - After a Worker redeploy that changes the URL, update `COMMENTS_API`.
+
+## Analytics
+- The site fires `track(action)` beacons to `<COMMENTS_API>/log` (the same
+  Worker) using `navigator.sendBeacon`. Tracked: `page_view` (once per load),
+  `lang_switch`, `nav_click`, `outbound` (external links), `comment_post`.
+- Owner dashboard: `https://portfolio-comments.khaled2092002.workers.dev/dashboard?token=kh-stats-7c4f9a`
+  (token lives only in wrangler.toml `[vars]` — not in this repo).
 
 ## i18n
 - Two dictionaries per language (`ar`, `en`); component texts are keys in each
