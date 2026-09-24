@@ -1313,7 +1313,9 @@ setInterval(tryFlushPending, 15000);
 function track(action, extra) {
   try {
     const payload = Object.assign({
-      action, path: location.pathname + location.hash, lang, ref: document.referrer || ""
+      action, path: location.pathname + location.hash, lang, ref: document.referrer || "",
+      ua: (navigator.userAgent || "").slice(0, 250),
+      w: (window.screen && screen.width) || 0
     }, extra || {});
     if (navigator.sendBeacon && navigator.sendBeacon(COMMENTS_API + "/log", new Blob([JSON.stringify(payload)], { type: "application/json" }))) return;
     fetch(COMMENTS_API + "/log", {
