@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://khaled-portfolio-two.vercel.app/sitemap.xml
