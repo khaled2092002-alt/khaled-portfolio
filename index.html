@@ -1310,6 +1310,20 @@ async function tryFlushPending() {
 }
 setInterval(tryFlushPending, 15000);
 
+function track(action, extra) {
+  try {
+    const payload = Object.assign({
+      action, path: location.pathname + location.hash, lang, ref: document.referrer || ""
+    }, extra || {});
+    if (navigator.sendBeacon && navigator.sendBeacon(COMMENTS_API + "/log", new Blob([JSON.stringify(payload)], { type: "application/json" }))) return;
+    fetch(COMMENTS_API + "/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload), keepalive: true
+    }).catch(function () {});
+  } catch (e) {}
+}
+
 async function submitComment(ev) {
   ev.preventDefault();
   const d = D().ui;
@@ -1330,6 +1344,8 @@ async function submitComment(ev) {
     pending.push({ name, content, honey: "" });
     savePending(pending);
     tryFlushPending();
+  } else {
+    track("comment_post");
   }
   stat.textContent = d.cmSent;
   btn.disabled = false;
@@ -1455,6 +1471,7 @@ function renderInfo() {
     `<a class="btn sm" href="${CONFIG.instagram}" target="_blank" rel="noopener">${d.f_ig}</a>`;
 }
 
+let pvTracked = false;
 function applyLang() {
   const h = document.documentElement, d = D();
   h.lang = lang; h.dir = d.dir;
@@ -1468,6 +1485,7 @@ function applyLang() {
   renderXP(); renderFilters(); renderWork(false); renderWeb(); renderMore(); renderStrip();
   renderPolas(); renderReel(); renderStats(); renderChips(); renderInfo();
   renderComments();
+  if (!pvTracked) { pvTracked = true; track("page_view"); }
 }
 
 /* ==================================================================
@@ -1476,6 +1494,7 @@ function applyLang() {
 $("#langBtn").addEventListener("click", () => {
   lang = lang === "ar" ? "en" : "ar";
   try { localStorage.setItem("kh-lang", lang); } catch (e) {}
+  track("lang_switch");
   applyLang();
 });
 const nav = $("#nav");
@@ -1483,7 +1502,21 @@ $("#menuBtn").addEventListener("click", e => {
   const open = nav.classList.toggle("open");
   e.currentTarget.setAttribute("aria-expanded", open);
 });
-$("#navLinks").addEventListener("click", () => { nav.classList.remove("open"); $("#menuBtn").setAttribute("aria-expanded", "false"); });
+$("#navLinks").addEventListener("click", e => {
+  nav.classList.remove("open");
+  $("#menuBtn").setAttribute("aria-expanded", "false");
+  const a = e.target.closest("a");
+  if (a) track("nav_click", { label: a.textContent.trim().slice(0, 30) });
+});
+document.addEventListener("click", e => {
+  const a = e.target.closest("a");
+  if (!a || !a.href) return;
+  try {
+    const host = new URL(a.href).hostname;
+    if (host !== location.hostname && (a.target === "_blank" || a.href.startsWith("http")))
+      track("outbound", { label: (a.textContent.trim() || a.href).slice(0, 40) });
+  } catch (err) {}
+});
 
 /* Rotating role word */
 function swapRole() {
