@@ -896,7 +896,7 @@ const L = {
       cmNeed: "قسم الكومنتات جاهز — صاحب الموقع محتاج بس ينشر الـ Cloudflare Worker ويضيف رابطه في الكود لتظهر الكومنتات هنا.",
       lnkDesign: "شوف على Behance", lnkVideo: "شاهد الفيديو", lnkWeb: "زيارة الموقع المباشر", lnkGeneric: "افتح",
       designD: "أحد أعمالي في التصميم الجرافيكي، منشور على Behance.",
-      f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance"
+      f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance", f_gm: "Gmail"
     },
     roles: ["مسوّق رقمي", "صانع محتوى", "مخرج فيديو", "مصمم جرافيك"],
     tape: ["مسوّق رقمي", "صانع محتوى", "مخرج فيديو", "مصمم جرافيك", "إدارة سوشيال ميديا", "استراتيجية محتوى", "SEO", "ميديا باينج"],
@@ -946,7 +946,7 @@ const L = {
       cmNeed: "The comments section is ready — the owner just needs to deploy the Cloudflare Worker and paste its URL here so comments can appear.",
       lnkDesign: "View on Behance", lnkVideo: "Watch the video", lnkWeb: "Visit live site", lnkGeneric: "Open",
       designD: "One of my graphic design projects, published on Behance.",
-      f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance"
+      f_ig: "Instagram", f_in: "LinkedIn", f_be: "Behance", f_gm: "Gmail"
     },
     roles: ["Digital Marketer", "Content Creator", "Videographer", "Graphic Designer"],
     tape: ["Digital Marketer", "Content Creator", "Videographer", "Graphic Designer", "Social Media Management", "Content Strategy", "SEO", "Media Buying"],
@@ -1479,6 +1479,7 @@ function renderInfo() {
     <span class="ic" style="--c:var(${r.c})">${ico(r.ic, 18)}</span>
     <span><small>${r.l}</small><b ${r.ltr ? 'dir="ltr"' : ""}>${r.v}</b></span></a></li>`).join("");
   $("#footLinks").innerHTML =
+    `<a class="btn sm" href="mailto:${CONFIG.email}">${d.f_gm}</a>` +
     `<a class="btn sm" href="${CONFIG.linkedin}" target="_blank" rel="noopener">${d.f_in}</a>` +
     `<a class="btn sm" href="${CONFIG.behance}" target="_blank" rel="noopener">${d.f_be}</a>` +
     `<a class="btn sm" href="${CONFIG.instagram}" target="_blank" rel="noopener">${d.f_ig}</a>`;
