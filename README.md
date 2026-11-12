@@ -1,7 +1,7 @@
 # Khaled Ahmed | خالد أحمد — Portfolio
 
 مسوّق رقمي وصانع محتوى — إدارة حملات السوشيال ميديا، إنتاج وإخراج الفيديو، التصميم الجرافيكي، وتطوير مواقع تعريفية.
-Digital Marketer & Content Creator based in Cairo, Egypt.
+Digital Marketer & Content Creator based in Sheikh Zayed, Giza, Egypt.
 
 **Live:** https://khaled2092002-alt.github.io/khaled-portfolio/
 
